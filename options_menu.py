@@ -1,76 +1,77 @@
 # 3rd party modules
-import PyQt4.QtCore as QtCore
-import PyQt4.QtGui as QtGui
+import PyQt5.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtWidgets as QtWidgets
 
-
-class OptionsMenu(QtGui.QWidget):
+class OptionsMenu(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtGui.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent)
 
         # Create the "Lotka-Volterra Coefficients" options
-        self.a_sb = QtGui.QDoubleSpinBox()
-        self.b_sb = QtGui.QDoubleSpinBox()
-        self.c_sb = QtGui.QDoubleSpinBox()
-        self.d_sb = QtGui.QDoubleSpinBox()
+        self.a_sb = QtWidgets.QDoubleSpinBox()
+        self.b_sb = QtWidgets.QDoubleSpinBox()
+        self.c_sb = QtWidgets.QDoubleSpinBox()
+        self.d_sb = QtWidgets.QDoubleSpinBox()
 
         for widget in (self.a_sb, self.b_sb, self.c_sb, self.d_sb):
             widget.setRange(0, 10)
             widget.setSingleStep(0.1)
 
-        coeff_grid = QtGui.QGridLayout()
-        coeff_grid.addWidget(QtGui.QLabel('Prey Growth Rate'), 0, 0)
+        coeff_grid = QtWidgets.QGridLayout()
+        coeff_grid.addWidget(QtWidgets.QLabel('Prey Growth Rate'), 0, 0)
         coeff_grid.addWidget(self.a_sb, 0, 1)
-        coeff_grid.addWidget(QtGui.QLabel('Predation Death Rate'), 1, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Predation Death Rate'), 1, 0)
         coeff_grid.addWidget(self.b_sb, 1, 1)
-        coeff_grid.addWidget(QtGui.QLabel('Predator Death Rate'), 2, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Predator Death Rate'), 2, 0)
         coeff_grid.addWidget(self.c_sb, 2, 1)
-        coeff_grid.addWidget(QtGui.QLabel('Predator Reproduction Rate'), 3, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Predator Reproduction Rate'), 3, 0)
         coeff_grid.addWidget(self.d_sb, 3, 1)
 
-        coeff_gb = QtGui.QGroupBox('Lotka-Volterra Coefficients:')
+        coeff_gb = QtWidgets.QGroupBox('Lotka-Volterra Coefficients:')
         coeff_gb.setLayout(coeff_grid)
 
         # Create the "Other Parameters" options
-        self.predator_sb = QtGui.QDoubleSpinBox()
+        self.predator_sb = QtWidgets.QDoubleSpinBox()
         self.predator_sb.setRange(0, 100000)
         self.predator_sb.setSingleStep(1)
 
-        self.prey_sb = QtGui.QDoubleSpinBox()
+        self.prey_sb = QtWidgets.QDoubleSpinBox()
         self.prey_sb.setRange(0, 100000)
         self.prey_sb.setSingleStep(1)
 
-        self.iterations_sb = QtGui.QSpinBox()
+        self.iterations_sb = QtWidgets.QSpinBox()
         self.iterations_sb.setRange(0, 100000)
         self.iterations_sb.setSingleStep(100)
 
-        self.timedelta_sb = QtGui.QDoubleSpinBox()
+        self.timedelta_sb = QtWidgets.QDoubleSpinBox()
         self.timedelta_sb.setRange(0, 100)
         self.timedelta_sb.setSingleStep(0.05)
 
-        other_grid = QtGui.QGridLayout()
-        other_grid.addWidget(QtGui.QLabel('Predator Population'), 0, 0)
+        other_grid = QtWidgets.QGridLayout()
+        other_grid.addWidget(QtWidgets.QLabel('Predator Population'), 0, 0)
         other_grid.addWidget(self.predator_sb, 0, 1)
-        other_grid.addWidget(QtGui.QLabel('Prey Population'), 1, 0)
+        other_grid.addWidget(QtWidgets.QLabel('Prey Population'), 1, 0)
         other_grid.addWidget(self.prey_sb, 1, 1)
-        other_grid.addWidget(QtGui.QLabel('Iterations'), 2, 0)
+        other_grid.addWidget(QtWidgets.QLabel('Iterations'), 2, 0)
         other_grid.addWidget(self.iterations_sb, 2, 1)
-        other_grid.addWidget(QtGui.QLabel('Time Delta'), 3, 0)
+        other_grid.addWidget(QtWidgets.QLabel('Time Delta'), 3, 0)
         other_grid.addWidget(self.timedelta_sb, 3, 1)
 
-        other_gb = QtGui.QGroupBox('Other Parameters:')
+        other_gb = QtWidgets.QGroupBox('Other Parameters:')
         other_gb.setLayout(other_grid)
 
         # Create the "Graph Options" options
-        self.legend_cb = QtGui.QCheckBox('Show Legend')
+        self.legend_cb = QtWidgets.QCheckBox('Show Legend')
         self.legend_cb.setChecked(True)
-        self.connect(self.legend_cb, QtCore.SIGNAL(
-            'stateChanged(int)'),
-            self.legend_change,
-        )
-        self.grid_cb = QtGui.QCheckBox('Show Grid')
+        self.legend_cb.stateChanged.connect(self.legend_change)
+      #  self.connect(self.legend_cb, QtCore.SIGNAL(
+      #      'stateChanged(int)'),
+      #      self.legend_change,
+      #  )
+        self.grid_cb = QtWidgets.QCheckBox('Show Grid')
         self.grid_cb.setChecked(True)
-        self.legend_loc_lbl = QtGui.QLabel('Legend Location')
-        self.legend_loc_cb = QtGui.QComboBox()
+        self.legend_loc_lbl = QtWidgets.QLabel('Legend Location')
+        self.legend_loc_cb = QtWidgets.QComboBox()
         self.legend_loc_cb.addItems([x.title() for x in [
             'right',
             'center',
@@ -86,42 +87,41 @@ class OptionsMenu(QtGui.QWidget):
         ]])
         self.legend_loc_cb.setCurrentIndex(6)
 
-        cb_box = QtGui.QHBoxLayout()
+        cb_box = QtWidgets.QHBoxLayout()
         cb_box.addWidget(self.legend_cb)
         cb_box.addWidget(self.grid_cb)
 
-        legend_box = QtGui.QHBoxLayout()
+        legend_box = QtWidgets.QHBoxLayout()
         legend_box.addWidget(self.legend_loc_cb)
         legend_box.addStretch()
 
-        graph_box = QtGui.QVBoxLayout()
+        graph_box = QtWidgets.QVBoxLayout()
         graph_box.addLayout(cb_box)
         graph_box.addWidget(self.legend_loc_lbl)
         graph_box.addLayout(legend_box)
 
-        graph_gb = QtGui.QGroupBox('Graph Options:')
+        graph_gb = QtWidgets.QGroupBox('Graph Options:')
         graph_gb.setLayout(graph_box)
 
-        # Create the update/reset buttons
-        self.update_btn = QtGui.QPushButton(
+# Create the update/reset buttons
+        self.update_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/calculator.png'),
-            'Run Iterations',
-        )
-        self.reset_values_btn = QtGui.QPushButton(
+            'Run Iterations')
+
+        self.reset_values_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/arrow_undo.png'),
-            'Reset Values',
-        )
-        self.clear_graph_btn = QtGui.QPushButton(
+            'Reset Values')
+        self.clear_graph_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/chart_line_delete.png'),
-            'Clear Graph',
-        )
-        self.connect(self.reset_values_btn, QtCore.SIGNAL(
-            'clicked()'),
-            self.reset_values,
-        )
+            'Clear Graph')
+        self.reset_values_btn.clicked.connect(self.reset_values)
+        #self.connect(self.reset_values_btn, QtCore.SIGNAL(
+        #    'clicked()'),
+        #    self.reset_values,
+        #)
 
         # Create the main layout
-        container = QtGui.QVBoxLayout()
+        container = QtWidgets.QVBoxLayout()
         container.addWidget(coeff_gb)
         container.addWidget(other_gb)
         container.addWidget(graph_gb)

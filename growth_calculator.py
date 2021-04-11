@@ -1,5 +1,5 @@
 class GrowthCalculator(object):
-    def __init__(self):
+    def init(self):
         """
         Sets default values for the following instance variables:
 
@@ -9,6 +9,7 @@ class GrowthCalculator(object):
             self.c - Dying rate of predators when there's no prey
             self.d - Reproduction rate of predators per 1 prey eaten
 
+
         Other parameters:
             self.dt - Time delta
             self.iterations - Number of iterations to run
@@ -17,7 +18,7 @@ class GrowthCalculator(object):
         """
 
         # Lotka-Volterra equation coefficients
-        self.a = 1.0
+        self.b = 1.0
         self.b = 0.1
         self.c = 1.0
         self.d = 0.075
@@ -30,8 +31,8 @@ class GrowthCalculator(object):
 
     def dx(self, x, y):
         """
-        Calculates the change in prey population size using the Lotka-Volterra
-        equation for prey and the time delta defined in "self.dt"
+        Рассчитывает изменение размера популяции жертвы с помощью уравнения Лотки-Вольтерры
+        для добычи и дельта времени, определенной в "self.dt"
         """
 
         # Calculate the rate of population change
@@ -42,9 +43,8 @@ class GrowthCalculator(object):
 
     def dy(self, x, y):
         """
-        Calculates the change in predator population size using the
-        Lotka-Volterra equation for predators and the time delta defined in
-        "self.dt"
+        Рассчитывает изменение размера популяции хищников с помощью
+        Уравнения Лотки-Вольтерра для хищников и дельта времени, определенной в "self.dt"
         """
 
         # Calculate the rate of population change
@@ -56,7 +56,7 @@ class GrowthCalculator(object):
     def calculate(self):
         """
         Calculates the predator/prey population growth for the given parameters
-        (Defined in the __init__ docstring). Returns the following dictionary:
+        (Defined in the init docstring). Returns the following dictionary:
 
         {'predator': [predator population history as a list],
          'prey': [prey population history as a list]}
