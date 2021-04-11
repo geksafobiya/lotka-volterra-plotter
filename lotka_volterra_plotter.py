@@ -5,34 +5,35 @@ import sys
 
 # 3rd party modules
 import matplotlib
-import matplotlib.backends.backend_qt4agg as backend_qt4agg
+import matplotlib.backends.backend_qt5agg as backend_qt5agg
 from matplotlib.figure import Figure
-import PyQt4.QtCore as QtCore
-import PyQt4.QtGui as QtGui
+import PyQt5.QtCore as QtCore
+import PyQt5.QtGui as QtGui
+import PyQt5.QtWidgets as QtWidgets
 
 # Local application modules
 from growth_calculator import GrowthCalculator
 from options_menu import OptionsMenu
 import resources
 
-APP_NAME = 'Lotka-Volterra Plotter'
-AUTHOR = 'Craig Dodd'
+APP_NAME = 'Lotka-Volterra'
+AUTHOR = 'Klymenko Anastasiia'
 
 
-class AppForm(QtGui.QMainWindow):
+class AppForm(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
-        QtGui.QMainWindow.__init__(self, parent)
+        QtWidgets.QMainWindow.__init__(self, parent)
 
         # Set the window title
         self.setWindowTitle(APP_NAME)
 
         # Create the options menu in a dock widget
         self.options_menu = OptionsMenu()
-        dock = QtGui.QDockWidget('Options', self)
+        dock = QtWidgets.QDockWidget('Опции', self)
         dock.setFeatures(
-            QtGui.QDockWidget.NoDockWidgetFeatures |
-            QtGui.QDockWidget.DockWidgetMovable |
-            QtGui.QDockWidget.DockWidgetFloatable
+            QtWidgets.QDockWidget.NoDockWidgetFeatures |
+            QtWidgets.QDockWidget.DockWidgetMovable |
+            QtWidgets.QDockWidget.DockWidgetFloatable
         )
         dock.setAllowedAreas(
             QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea,
@@ -41,33 +42,39 @@ class AppForm(QtGui.QMainWindow):
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, dock)
 
         # Connect the signals from the options menu
-        self.connect(self.options_menu.update_btn, QtCore.SIGNAL(
-            'clicked()'),
-            self.calculate_data,
-        )
-        self.connect(self.options_menu.clear_graph_btn, QtCore.SIGNAL(
-            'clicked()'),
-            self.clear_graph,
-        )
-        self.connect(self.options_menu.legend_cb, QtCore.SIGNAL(
-            'stateChanged(int)'),
-            self.redraw_graph,
-        )
-        self.connect(self.options_menu.grid_cb, QtCore.SIGNAL(
-            'stateChanged(int)'),
-            self.redraw_graph,
-        )
-        self.connect(self.options_menu.legend_loc_cb, QtCore.SIGNAL(
-            'currentIndexChanged(int)'),
-            self.redraw_graph,
-        )
+        self.options_menu.update_btn.clicked.connect(self.calculate_data)
+
+       # self.connect(self.options_menu.update_btn, QtCore.SIGNAL(
+       #     'clicked()'),
+       #     self.calculate_data,
+       # )
+        self.options_menu.clear_graph_btn.clicked.connect(self.clear_graph)
+        #self.connect(self.options_menu.clear_graph_btn, QtCore.SIGNAL(
+        #    'clicked()'),
+         #   self.clear_graph,
+        #)
+        self.options_menu.legend_cb.stateChanged.connect(self.redraw_graph)
+       # self.connect(self.options_menu.legend_cb, QtCore.SIGNAL(
+        #    'stateChanged(int)'),
+        #    self.redraw_graph,
+        #)
+        self.options_menu.grid_cb.stateChanged.connect(self.redraw_graph)
+       # self.connect(self.options_menu.grid_cb, QtCore.SIGNAL(
+       #     'stateChanged(int)'),
+       #     self.redraw_graph,
+       # )
+        self.options_menu.legend_loc_cb.currentIndexChanged.connect(self.redraw_graph)
+        #self.connect(self.options_menu.legend_loc_cb, QtCore.SIGNAL(
+        #    'currentIndexChanged(int)'),
+        #    self.redraw_graph,
+        #)
 
         # Create the graph plot
         fig = Figure((7.0, 3.0), dpi=100)
-        self.canvas = backend_qt4agg.FigureCanvasQTAgg(fig)
+        self.canvas = backend_qt5agg.FigureCanvasQTAgg(fig)
         self.canvas.setParent(self)
         self.axes = fig.add_subplot(111)
-        backend_qt4agg.NavigationToolbar2QTAgg(self.canvas, self.canvas)
+        backend_qt5agg.NavigationToolbar2QT(self.canvas, self.canvas)
 
         # Initialize the graph
         self.clear_graph()
@@ -76,23 +83,26 @@ class AppForm(QtGui.QMainWindow):
         self.setCentralWidget(self.canvas)
 
         # Create menubar actions
-        file_exit_action = QtGui.QAction('E&xit', self)
+        file_exit_action = QtWidgets.QAction('&Exit', self)
         file_exit_action.setToolTip('Exit')
         file_exit_action.setIcon(QtGui.QIcon(':/resources/door_open.png'))
-        self.connect(
-            file_exit_action,
-            QtCore.SIGNAL('triggered()'),
-            self.close,
-        )
+        file_exit_action.triggered.connect(self.close)
+       # self.connect(
+       #     file_exit_action,
+        #    QtCore.SIGNAL('triggered()'),
+        #    self.close,
+        #)
 
-        about_action = QtGui.QAction('&About', self)
+
+        about_action = QtWidgets.QAction('&About', self)
         about_action.setToolTip('About')
-        about_action.setIcon(QtGui.QIcon(':/resources/icon_info.gif'))
-        self.connect(
-            about_action,
-            QtCore.SIGNAL('triggered()'),
-            self.show_about,
-        )
+        about_action.setIcon(QtGui.QIcon(':/resources/icon_info.png'))
+        about_action.triggered.connect(self.show_about)
+       # self.connect(
+       #     about_action,
+       #     QtCore.SIGNAL('triggered()'),
+       #     self.show_about,
+       # )
 
         # Create the menubar
         file_menu = self.menuBar().addMenu('&File')
@@ -106,12 +116,25 @@ class AppForm(QtGui.QMainWindow):
         growth = GrowthCalculator()
 
         # Update the GrowthCalculator parameters from the GUI options
-        growth.a = self.options_menu.a_sb.value()
-        growth.b = self.options_menu.b_sb.value()
-        growth.c = self.options_menu.c_sb.value()
-        growth.d = self.options_menu.d_sb.value()
+        growth.b1 = self.options_menu.b1_sb.value()
+        growth.a11 = self.options_menu.a11_sb.value()
+        growth.a12 = self.options_menu.a12_sb.value()
+        growth.a13 = self.options_menu.a13_sb.value()
+
+        growth.b2 = self.options_menu.b2_sb.value()
+        growth.a21 = self.options_menu.a21_sb.value()
+        growth.a22 = self.options_menu.a22_sb.value()
+        growth.a23 = self.options_menu.a23_sb.value()
+
+        growth.b3 = self.options_menu.b3_sb.value()
+        growth.a31 = self.options_menu.a31_sb.value()
+        growth.a32 = self.options_menu.a32_sb.value()
+        growth.a33 = self.options_menu.a33_sb.value()
+
         growth.predators = self.options_menu.predator_sb.value()
         growth.prey = self.options_menu.prey_sb.value()
+        growth.superpredators = self.options_menu.superpredator_sb.value()
+
         growth.iterations = self.options_menu.iterations_sb.value()
         growth.dt = self.options_menu.timedelta_sb.value()
 
@@ -119,11 +142,12 @@ class AppForm(QtGui.QMainWindow):
         results = growth.calculate()
         self.predator_history.extend(results['predator'])
         self.prey_history.extend(results['prey'])
+        self.superpredator_history.extend(results['superpredator'])
 
         # Put the latest population sizes into the options toolbar
         self.options_menu.predator_sb.setValue(self.predator_history[-1])
         self.options_menu.prey_sb.setValue(self.prey_history[-1])
-
+        self.options_menu.superpredator_sb.setValue(self.superpredator_history[-1])
         # Redraw the graph
         self.redraw_graph()
 
@@ -131,6 +155,7 @@ class AppForm(QtGui.QMainWindow):
         # Clear the population histories
         self.predator_history = []
         self.prey_history = []
+        self.superpredator_history = []
 
         # Redraw the graph
         self.redraw_graph()
@@ -140,19 +165,21 @@ class AppForm(QtGui.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Predator & Prey Growth Cycles')
-        self.axes.set_xlabel('Iterations')
-        self.axes.set_ylabel('Population Size')
+        self.axes.set_title('Цикл роста хищников и травоядных')
+        self.axes.set_xlabel('Итерации')
+        self.axes.set_ylabel('Размер популяции')
 
         # Plot the current population data
         if self.predator_history:
-            self.axes.plot(self.predator_history, 'r-', label='Predator')
+            self.axes.plot(self.predator_history, 'r-', label='predator')
         if self.prey_history:
-            self.axes.plot(self.prey_history, 'b-', label='Prey')
+            self.axes.plot(self.prey_history, 'b-', label='prey')
+        if self.superpredator_history:
+            self.axes.plot(self.prey_history, 'b-', label='superpredator')
 
         # Create the legend if necessary
         if self.options_menu.legend_cb.isChecked():
-            if self.predator_history or self.prey_history:
+            if self.predator_history or self.prey_history or self.superpredator_history:
                 legend_loc = str(
                     self.options_menu.legend_loc_cb.currentText()
                 ).lower()
@@ -172,15 +199,12 @@ class AppForm(QtGui.QMainWindow):
         message = '''<font size="+2">%s</font>
             <p>A Lotka-Volterra Plotter written in Python.
             <p>Written by %s,
-            <a href="http://opensource.org/licenses/MIT">MIT Licensed</a>
-            <p>Icons from <a href="http://www.famfamfam.com/">famfamfam</a> and
-            <a href="http://commons.wikimedia.org/">Wikimedia
-            Commons</a>.''' % (APP_NAME, AUTHOR)
+            ''' %(APP_NAME, AUTHOR)
 
-        QtGui.QMessageBox.about(self, 'About ' + APP_NAME, message)
+        QtWidgets.QMessageBox.about(self, 'About ' + APP_NAME, message)
 
 if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QtGui.QIcon(':/resources/icon.svg'))
     form = AppForm()
     form.show()
