@@ -67,24 +67,12 @@ class AppForm(QtWidgets.QMainWindow):
         file_exit_action.setToolTip('Exit')
         file_exit_action.setIcon(QtGui.QIcon(':/resources/door_open.png'))
         file_exit_action.triggered.connect(self.close)
-       # self.connect(
-       #     file_exit_action,
-        #    QtCore.SIGNAL('triggered()'),
-        #    self.close,
-        #)
-
 
         about_action = QtWidgets.QAction('&About', self)
         about_action.setToolTip('About')
         about_action.setIcon(QtGui.QIcon(':/resources/icon_info.png'))
         about_action.triggered.connect(self.show_about)
-       # self.connect(
-       #     about_action,
-       #     QtCore.SIGNAL('triggered()'),
-       #     self.show_about,
-       # )
-
-        # Create the menubar
+     # Create the menubar
         file_menu = self.menuBar().addMenu('&File')
         file_menu.addAction(file_exit_action)
 

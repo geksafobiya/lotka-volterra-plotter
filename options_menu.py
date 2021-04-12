@@ -152,10 +152,6 @@ class OptionsMenu(QtWidgets.QWidget):
             QtGui.QIcon(':/resources/chart_line_delete.png'),
             'Очистить график')
         self.reset_values_btn.clicked.connect(self.reset_values)
-        #self.connect(self.reset_values_btn, QtCore.SIGNAL(
-        #    'clicked()'),
-        #    self.reset_values,
-        #)
 
         # Create the main layout
         container = QtWidgets.QVBoxLayout()
