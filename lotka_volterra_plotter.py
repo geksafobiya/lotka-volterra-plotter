@@ -29,7 +29,7 @@ class AppForm(QtWidgets.QMainWindow):
 
         # Create the options menu in a dock widget
         self.options_menu = OptionsMenu()
-        dock = QtWidgets.QDockWidget('Options', self)
+        dock = QtWidgets.QDockWidget('Опции', self)
         dock.setFeatures(
             QtWidgets.QDockWidget.NoDockWidgetFeatures |
             QtWidgets.QDockWidget.DockWidgetMovable |
@@ -44,30 +44,10 @@ class AppForm(QtWidgets.QMainWindow):
         # Connect the signals from the options menu
         self.options_menu.update_btn.clicked.connect(self.calculate_data)
 
-       # self.connect(self.options_menu.update_btn, QtCore.SIGNAL(
-       #     'clicked()'),
-       #     self.calculate_data,
-       # )
         self.options_menu.clear_graph_btn.clicked.connect(self.clear_graph)
-        #self.connect(self.options_menu.clear_graph_btn, QtCore.SIGNAL(
-        #    'clicked()'),
-         #   self.clear_graph,
-        #)
         self.options_menu.legend_cb.stateChanged.connect(self.redraw_graph)
-       # self.connect(self.options_menu.legend_cb, QtCore.SIGNAL(
-        #    'stateChanged(int)'),
-        #    self.redraw_graph,
-        #)
         self.options_menu.grid_cb.stateChanged.connect(self.redraw_graph)
-       # self.connect(self.options_menu.grid_cb, QtCore.SIGNAL(
-       #     'stateChanged(int)'),
-       #     self.redraw_graph,
-       # )
         self.options_menu.legend_loc_cb.currentIndexChanged.connect(self.redraw_graph)
-        #self.connect(self.options_menu.legend_loc_cb, QtCore.SIGNAL(
-        #    'currentIndexChanged(int)'),
-        #    self.redraw_graph,
-        #)
 
         # Create the graph plot
         fig = Figure((7.0, 3.0), dpi=100)
@@ -115,13 +95,26 @@ class AppForm(QtWidgets.QMainWindow):
         # Create a GrowthCalculator object
         growth = GrowthCalculator()
 
-# Update the GrowthCalculator parameters from the GUI options
-        growth.a = self.options_menu.a_sb.value()
-        growth.b = self.options_menu.b_sb.value()
-        growth.c = self.options_menu.c_sb.value()
-        growth.d = self.options_menu.d_sb.value()
+        # Update the GrowthCalculator parameters from the GUI options
+        growth.b1 = self.options_menu.b1_sb.value()
+        growth.a11 = self.options_menu.a11_sb.value()
+        growth.a12 = self.options_menu.a12_sb.value()
+        growth.a13 = self.options_menu.a13_sb.value()
+
+        growth.b2 = self.options_menu.b2_sb.value()
+        growth.a21 = self.options_menu.a21_sb.value()
+        growth.a22 = self.options_menu.a22_sb.value()
+        growth.a23 = self.options_menu.a23_sb.value()
+
+        growth.b3 = self.options_menu.b3_sb.value()
+        growth.a31 = self.options_menu.a31_sb.value()
+        growth.a32 = self.options_menu.a32_sb.value()
+        growth.a33 = self.options_menu.a33_sb.value()
+
         growth.predators = self.options_menu.predator_sb.value()
         growth.prey = self.options_menu.prey_sb.value()
+        growth.superpredators = self.options_menu.superpredators_sb.value()
+
         growth.iterations = self.options_menu.iterations_sb.value()
         growth.dt = self.options_menu.timedelta_sb.value()
 
@@ -129,11 +122,13 @@ class AppForm(QtWidgets.QMainWindow):
         results = growth.calculate()
         self.predator_history.extend(results['predator'])
         self.prey_history.extend(results['prey'])
+        self.superpredator_history.extend(results['superpredator'])
 
         # Put the latest population sizes into the options toolbar
+        print('self.predator_history[-1]', self.predator_history[-1])
         self.options_menu.predator_sb.setValue(self.predator_history[-1])
         self.options_menu.prey_sb.setValue(self.prey_history[-1])
-
+        self.options_menu.superpredators_sb.setValue(self.superpredator_history[-1])
         # Redraw the graph
         self.redraw_graph()
 
@@ -141,6 +136,7 @@ class AppForm(QtWidgets.QMainWindow):
         # Clear the population histories
         self.predator_history = []
         self.prey_history = []
+        self.superpredator_history = []
 
         # Redraw the graph
         self.redraw_graph()
@@ -159,10 +155,12 @@ class AppForm(QtWidgets.QMainWindow):
             self.axes.plot(self.predator_history, 'r-', label='predator')
         if self.prey_history:
             self.axes.plot(self.prey_history, 'b-', label='prey')
+        if self.superpredator_history:
+            self.axes.plot(self.superpredator_history, 'g-', label='superpredator')
 
         # Create the legend if necessary
         if self.options_menu.legend_cb.isChecked():
-            if self.predator_history or self.prey_history:
+            if self.predator_history or self.prey_history or self.superpredator_history:
                 legend_loc = str(
                     self.options_menu.legend_loc_cb.currentText()
                 ).lower()
