@@ -134,17 +134,17 @@ class OptionsMenu(QtWidgets.QWidget):
         graph_box.addWidget(self.legend_loc_lbl)
         graph_box.addLayout(legend_box)
 
-        graph_gb = QtWidgets.QGroupBox('Graph Options:')
+        graph_gb = QtWidgets.QGroupBox('Настройки графика:')
         graph_gb.setLayout(graph_box)
 
         # Create the update/reset buttons
         self.update_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/calculator.png'),
-            'Run Iterations')
+            'Запуск итераций')
 
         self.reset_values_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/arrow_undo.png'),
-            'Reset Values')
+            'Сброс значений')
         self.clear_graph_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/chart_line_delete.png'),
             'Очистить график')

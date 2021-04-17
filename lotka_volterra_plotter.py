@@ -17,7 +17,7 @@ from options_menu import OptionsMenu
 import resources
 
 APP_NAME = 'Lotka-Volterra'
-AUTHOR = 'Klymenko Anastasiia'
+AUTHOR = 'Клименко Анастасия'
 
 
 class AppForm(QtWidgets.QMainWindow):
@@ -29,7 +29,7 @@ class AppForm(QtWidgets.QMainWindow):
 
         # Create the options menu in a dock widget
         self.options_menu = OptionsMenu()
-        dock = QtWidgets.QDockWidget('Опции', self)
+        dock = QtWidgets.QDockWidget('Настройки коэффициентов', self)
         dock.setFeatures(
             QtWidgets.QDockWidget.NoDockWidgetFeatures |
             QtWidgets.QDockWidget.DockWidgetMovable |
@@ -65,17 +65,20 @@ class AppForm(QtWidgets.QMainWindow):
         self.setCentralWidget(self.canvas)
 
         # Create menubar actions
-        file_exit_action = QtWidgets.QAction('&Exit', self)
-        file_exit_action.setToolTip('Exit')
-        file_exit_action.setIcon(QtGui.QIcon(':/resources/door_open.png'))
-        file_exit_action.triggered.connect(self.close)
+
 
         about_action = QtWidgets.QAction('&About', self)
         about_action.setToolTip('About')
         about_action.setIcon(QtGui.QIcon(':/resources/icon_info.png'))
         about_action.triggered.connect(self.show_about)
+
      # Create the menubar
-        file_menu = self.menuBar().addMenu('&File')
+        file_exit_action = QtWidgets.QAction('&Exit', self)
+        file_exit_action.setToolTip('Exit')
+        file_exit_action.setIcon(QtGui.QIcon(':/resources/door_open.png'))
+        file_exit_action.triggered.connect(self.close)
+
+        file_menu = self.menuBar().addMenu('&Exit')
         file_menu.addAction(file_exit_action)
 
         help_menu = self.menuBar().addMenu('&Help')
@@ -172,7 +175,7 @@ class AppForm(QtWidgets.QMainWindow):
             <p>Написана %s, группа КА-73.
             ''' %(APP_NAME, AUTHOR)
 
-        QtWidgets.QMessageBox.about(self, 'About ' + APP_NAME, message)
+        QtWidgets.QMessageBox.about(self, 'About' + APP_NAME, message)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
