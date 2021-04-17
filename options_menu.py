@@ -98,16 +98,13 @@ class OptionsMenu(QtWidgets.QWidget):
         other_gb.setLayout(other_grid)
 
         # Create the "Graph Options" options
-        self.legend_cb = QtWidgets.QCheckBox('Show Legend')
+        self.legend_cb = QtWidgets.QCheckBox('Показать легенду')
         self.legend_cb.setChecked(True)
         self.legend_cb.stateChanged.connect(self.legend_change)
-      #  self.connect(self.legend_cb, QtCore.SIGNAL(
-      #      'stateChanged(int)'),
-      #      self.legend_change,
-      #  )
-        self.grid_cb = QtWidgets.QCheckBox('Show Grid')
+
+        self.grid_cb = QtWidgets.QCheckBox('Показать сетку')
         self.grid_cb.setChecked(True)
-        self.legend_loc_lbl = QtWidgets.QLabel('Legend Location')
+        self.legend_loc_lbl = QtWidgets.QLabel('Местоположение легенды')
         self.legend_loc_cb = QtWidgets.QComboBox()
         self.legend_loc_cb.addItems([x.title() for x in [
             'right',
@@ -177,21 +174,23 @@ class OptionsMenu(QtWidgets.QWidget):
         #self.d_sb.setValue(0.075)
 
         self.b1_sb.setValue(1.0)
-
         self.a11_sb.setValue(0.1)
         self.a12_sb.setValue(0.1)
         self.a13_sb.setValue(0.1)
+
         self.b2_sb.setValue(1.0)
         self.a21_sb.setValue(0.2)
-        self.a22_sb.setValue(0.7)
+        self.a22_sb.setValue(0.2)
         self.a23_sb.setValue(0.3)
-        self.b3_sb.setValue(1)
-        self.a31_sb.setValue(0.5)
+
+        self.b3_sb.setValue(1.0)
+        self.a31_sb.setValue(0.3)
         self.a32_sb.setValue(0.2)
         self.a33_sb.setValue(0.98)
+
         self.predator_sb.setValue(5)
-        self.prey_sb.setValue(10)
-        self.superpredators_sb.setValue(4)
+        self.prey_sb.setValue(20)
+        self.superpredators_sb.setValue(5)
         self.iterations_sb.setValue(1000)
         self.timedelta_sb.setValue(0.02)
 

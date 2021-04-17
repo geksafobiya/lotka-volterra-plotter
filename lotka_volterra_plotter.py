@@ -42,7 +42,9 @@ class AppForm(QtWidgets.QMainWindow):
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, dock)
 
         # Connect the signals from the options menu
+        self.options_menu.update_btn.clicked.connect(self.clear_graph)
         self.options_menu.update_btn.clicked.connect(self.calculate_data)
+
 
         self.options_menu.clear_graph_btn.clicked.connect(self.clear_graph)
         self.options_menu.legend_cb.stateChanged.connect(self.redraw_graph)
@@ -140,11 +142,11 @@ class AppForm(QtWidgets.QMainWindow):
 
         # Plot the current population data
         if self.predator_history:
-            self.axes.plot(self.predator_history, 'r-', label='predator')
+            self.axes.plot(self.predator_history, 'r-', label='хищники')
         if self.prey_history:
-            self.axes.plot(self.prey_history, 'b-', label='prey')
+            self.axes.plot(self.prey_history, 'b-', label='травоядные')
         if self.superpredator_history:
-            self.axes.plot(self.superpredator_history, 'g-', label='superpredator')
+            self.axes.plot(self.superpredator_history, 'g-', label='суперхищники')
 
         # Create the legend if necessary
         if self.options_menu.legend_cb.isChecked():
@@ -166,8 +168,8 @@ class AppForm(QtWidgets.QMainWindow):
         Display the "about" dialog box.
         """
         message = '''<font size="+2">%s</font>
-            <p>A Lotka-Volterra Plotter written in Python.
-            <p>Written by %s,
+            <p>Дипломная работа на тему системы дифференциальных уравнений Лотки-Вольтерра.
+            <p>Написана %s, группа КА-73.
             ''' %(APP_NAME, AUTHOR)
 
         QtWidgets.QMessageBox.about(self, 'About ' + APP_NAME, message)
