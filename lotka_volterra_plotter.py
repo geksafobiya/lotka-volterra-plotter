@@ -89,20 +89,20 @@ class AppForm(QtWidgets.QMainWindow):
         growth = GrowthCalculator()
 
         # Update the GrowthCalculator parameters from the GUI options
+     #   growth.a11 = self.options_menu.a11_sb.value()
         growth.b1 = self.options_menu.b1_sb.value()
-        growth.a11 = self.options_menu.a11_sb.value()
         growth.a12 = self.options_menu.a12_sb.value()
         growth.a13 = self.options_menu.a13_sb.value()
 
         growth.b2 = self.options_menu.b2_sb.value()
         growth.a21 = self.options_menu.a21_sb.value()
-        growth.a22 = self.options_menu.a22_sb.value()
+      #  growth.a22 = self.options_menu.a22_sb.value()
         growth.a23 = self.options_menu.a23_sb.value()
 
         growth.b3 = self.options_menu.b3_sb.value()
         growth.a31 = self.options_menu.a31_sb.value()
         growth.a32 = self.options_menu.a32_sb.value()
-        growth.a33 = self.options_menu.a33_sb.value()
+     #   growth.a33 = self.options_menu.a33_sb.value()
 
         growth.predators = self.options_menu.predator_sb.value()
         growth.prey = self.options_menu.prey_sb.value()
@@ -117,11 +117,11 @@ class AppForm(QtWidgets.QMainWindow):
         self.prey_history.extend(results['prey'])
         self.superpredator_history.extend(results['superpredator'])
 
-        # Put the latest population sizes into the options toolbar
-        print('self.predator_history[-1]', self.predator_history[-1])
-        self.options_menu.predator_sb.setValue(self.predator_history[-1])
-        self.options_menu.prey_sb.setValue(self.prey_history[-1])
-        self.options_menu.superpredators_sb.setValue(self.superpredator_history[-1])
+        # последнее в векторе количество популяции на панель инструментов параметров
+      #  print('self.predator_history[-1]', self.predator_history[-1])
+      #  self.options_menu.predator_sb.setValue(self.predator_history[-1])
+      #  self.options_menu.prey_sb.setValue(self.prey_history[-1])
+      #  self.options_menu.superpredators_sb.setValue(self.superpredator_history[-1])
         # Redraw the graph
         self.redraw_graph()
 
@@ -139,7 +139,7 @@ class AppForm(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников и травоядных')
+        self.axes.set_title('Цикл роста хищников, травоядных и суперхищников')
         self.axes.set_xlabel('Итерации')
         self.axes.set_ylabel('Размер популяции')
 
@@ -168,7 +168,7 @@ class AppForm(QtWidgets.QMainWindow):
 
     def show_about(self):
         """
-        Display the "about" dialog box.
+        отображение диалогового окошка "about".
         """
         message = '''<font size="+2">%s</font>
             <p>Дипломная работа на тему системы дифференциальных уравнений Лотки-Вольтерра.

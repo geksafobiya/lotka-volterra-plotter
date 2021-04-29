@@ -1,40 +1,23 @@
 class GrowthCalculator(object):
     def __init__(self):
-        """
-        Sets default values for the following instance variables:
-
-        Lotka-Volterra equation coefficients:
-            self.a - Growing rate of prey when there's no predators
-            self.b - Dying rate of prey due to predation
-            self.c - Dying rate of predators when there's no prey
-            self.d - Reproduction rate of predators per 1 prey eaten
-
-
-        Other parameters:
-            self.dt - Time delta
-            self.iterations - Number of iterations to run
-            self.predators - Initial predator population count
-            self.prey - Initial prey population count
-        """
-
         # Lotka-Volterra equation coefficients
         #для травоядных
         self.b1 = 1.0 #рождаемость
-        self.a11 = 0.1 #смерть от старости
+     #   self.a11 = 0.1 #смерть от старости
         self.a12 = 0.1 #смерть от хищников
         self.a13 = 0.1 #смерть от суперхищников
 
         #для хищников
         self.b2 = 1.0 #смерть хищников без травоядных
         self.a21 = 0.075 #репродукция хищников за каждого съеденного
-        self.a22 = 0.5 #смертность от старости
+     #   self.a22 = 0.5 #смертность от старости
         self.a23 = 0.3 #смертность от суперхищников
 
         #для суперхищников
         self.b3 = 1.0  #смерть суперхищников без травоядных и хищников
         self.a31 = 0.075  # репродукция суперхищников за каждого съеденного травоядного
         self.a32 = 0.5  # репродукция суперхищников за каждого съеденного хищника
-        self.a33 = 0.3 #смерть от старости
+    #    self.a33 = 0.3 #смерть от старости
 
 
         # Other parameters
@@ -51,7 +34,7 @@ class GrowthCalculator(object):
         """
 
         # Calculate the rate of population change
-        dx_dt = x * (self.b1 - self.a11 * x - self.a12*y - self.a13*z)
+        dx_dt = x * (self.b1 - self.a12*y - self.a13*z)
 
         # Calculate the prey population change
         return dx_dt * self.dt
@@ -63,7 +46,7 @@ class GrowthCalculator(object):
         """
 
         # Calculate the rate of population change
-        dy_dt = y * (-self.b2 - self.a22*y + self.a21*x - self.a23*z)
+        dy_dt = y * (-self.b2 + self.a21*x - self.a23*z)
 
         # Calculate the predator population change
         return dy_dt * self.dt
@@ -75,7 +58,7 @@ class GrowthCalculator(object):
         """
 
         # Calculate the rate of population change
-        dz_dt = z * (-self.b3 + self.a32*y + self.a31*x - self.a33*z)
+        dz_dt = z * (-self.b3 + self.a31*x + self.a32*y)
 
         # Calculate the predator population change
         return dz_dt * self.dt
@@ -97,16 +80,24 @@ class GrowthCalculator(object):
             yk_1 = self.dy(self.prey, self.predators, self.superpredators)
             zk_1 = self.dz(self.prey, self.predators, self.superpredators)
 
-            xk_2 = self.dx(self.prey + xk_1, self.predators + yk_1, self.superpredators+zk_1)
-            yk_2 = self.dy(self.prey + xk_1, self.predators + yk_1, self.superpredators+zk_1)
-            zk_2 = self.dz(self.prey + xk_1, self.predators + yk_1, self.superpredators+zk_1)
+            #xk_2 = self.dx(self.prey + xk_1, self.predators + yk_1, self.superpredators + zk_1)
+            #yk_2 = self.dy(self.prey + xk_1, self.predators + yk_1, self.superpredators + zk_1)
+            #zk_2 = self.dz(self.prey + xk_1, self.predators + yk_1, self.superpredators + zk_1)
 
-            self.prey = self.prey + (xk_1 + xk_2) / 2
-            self.predators = self.predators + (yk_1 + yk_2) / 2
-            self.superpredators = self.superpredators + (zk_1 + zk_2) / 2
+            ##self.prey = self.prey + (xk_1 + xk_2) / 2
+            #self.predators = self.predators + (yk_1 + yk_2) / 2
+            #self.superpredators = self.superpredators + (zk_1 + zk_2) / 2
+
+            xk_2 = self.dx(self.prey + xk_1/2, self.predators + yk_1, self.superpredators + zk_1)
+            yk_2 = self.dy(self.prey + xk_1/2, self.predators + yk_1, self.superpredators + zk_1)
+            zk_2 = self.dz(self.prey + xk_1, self.predators + yk_1, self.superpredators + zk_1)
 
             predator_history.append(self.predators)
             prey_history.append(self.prey)
             superpredator_history.append(self.superpredators)
 
-        return {'predator': predator_history, 'prey': prey_history, 'superpredator': superpredator_history}
+        return {
+            'predator': predator_history,
+            'prey': prey_history,
+            'superpredator': superpredator_history
+        }
