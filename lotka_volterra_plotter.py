@@ -12,7 +12,7 @@ import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets as QtWidgets
 
 # Local application modules
-from growth_calculator import GrowthCalculator
+from two_pred_one_prey import GrowthCalculator
 from options_menu import OptionsMenu
 import resources
 
@@ -24,10 +24,10 @@ class AppForm(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
 
-        # Set the window title
+        # название окна
         self.setWindowTitle(APP_NAME)
 
-        # Create the options menu in a dock widget
+        # Создание в меню параметров в виджете док-станции
         self.options_menu = OptionsMenu()
         dock = QtWidgets.QDockWidget('Настройки коэффициентов', self)
         dock.setFeatures(
@@ -41,38 +41,35 @@ class AppForm(QtWidgets.QMainWindow):
         dock.setWidget(self.options_menu)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, dock)
 
-        # Connect the signals from the options menu
+        # Подключение сигналов из меню параметров
         self.options_menu.update_btn.clicked.connect(self.clear_graph)
         self.options_menu.update_btn.clicked.connect(self.calculate_data)
-
 
         self.options_menu.clear_graph_btn.clicked.connect(self.clear_graph)
         self.options_menu.legend_cb.stateChanged.connect(self.redraw_graph)
         self.options_menu.grid_cb.stateChanged.connect(self.redraw_graph)
         self.options_menu.legend_loc_cb.currentIndexChanged.connect(self.redraw_graph)
 
-        # Create the graph plot
+        # создание графика
         fig = Figure((7.0, 3.0), dpi=100)
         self.canvas = backend_qt5agg.FigureCanvasQTAgg(fig)
         self.canvas.setParent(self)
         self.axes = fig.add_subplot(111)
         backend_qt5agg.NavigationToolbar2QT(self.canvas, self.canvas)
 
-        # Initialize the graph
+        # инициализация графа
         self.clear_graph()
 
-        # Set the graph as the main window widget
         self.setCentralWidget(self.canvas)
 
-        # Create menubar actions
-
+        # создать менюбар действий
 
         about_action = QtWidgets.QAction('&About', self)
         about_action.setToolTip('About')
         about_action.setIcon(QtGui.QIcon(':/resources/icon_info.png'))
         about_action.triggered.connect(self.show_about)
 
-     # Create the menubar
+     # создать менюбар
         file_exit_action = QtWidgets.QAction('&Exit', self)
         file_exit_action.setToolTip('Exit')
         file_exit_action.setIcon(QtGui.QIcon(':/resources/door_open.png'))
@@ -85,7 +82,7 @@ class AppForm(QtWidgets.QMainWindow):
         help_menu.addAction(about_action)
 
     def calculate_data(self):
-        # Create a GrowthCalculator object
+        # объект GrowthCalculator
         growth = GrowthCalculator()
 
         # Update the GrowthCalculator parameters from the GUI options
@@ -117,41 +114,47 @@ class AppForm(QtWidgets.QMainWindow):
         self.prey_history.extend(results['prey'])
         self.superpredator_history.extend(results['superpredator'])
 
+        if (len(self.predator_history) == 0 and
+                len(self.prey_history) == 0 and
+                len(self.superpredator_history) == 0):
+            QtWidgets.QMessageBox.information(self, 'Error', 'Ошибка')
+            return
+
         # последнее в векторе количество популяции на панель инструментов параметров
       #  print('self.predator_history[-1]', self.predator_history[-1])
       #  self.options_menu.predator_sb.setValue(self.predator_history[-1])
       #  self.options_menu.prey_sb.setValue(self.prey_history[-1])
       #  self.options_menu.superpredators_sb.setValue(self.superpredator_history[-1])
-        # Redraw the graph
+        # перерисовать граф
         self.redraw_graph()
 
     def clear_graph(self):
-        # Clear the population histories
+        # очистить историю популяций
         self.predator_history = []
         self.prey_history = []
         self.superpredator_history = []
 
-        # Redraw the graph
+        # перерисовать граф
         self.redraw_graph()
 
     def redraw_graph(self):
-        # Clear the graph
+        # очистить граф
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников, травоядных и суперхищников')
+        self.axes.set_title('Цикл роста хищников вида 1, хищников вида 2 и травоядных')
         self.axes.set_xlabel('Итерации')
         self.axes.set_ylabel('Размер популяции')
 
         # Plot the current population data
         if self.predator_history:
-            self.axes.plot(self.predator_history, 'r-', label='хищники')
+            self.axes.plot(self.predator_history, 'r-', label='хищники вида 1')
         if self.prey_history:
             self.axes.plot(self.prey_history, 'b-', label='травоядные')
         if self.superpredator_history:
-            self.axes.plot(self.superpredator_history, 'g-', label='суперхищники')
+            self.axes.plot(self.superpredator_history, 'g-', label='хищники вида 2')
 
-        # Create the legend if necessary
+        # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():
             if self.predator_history or self.prey_history or self.superpredator_history:
                 legend_loc = str(
@@ -160,10 +163,10 @@ class AppForm(QtWidgets.QMainWindow):
                 legend = matplotlib.font_manager.FontProperties(size=10)
                 self.axes.legend(loc=legend_loc, prop=legend)
 
-        # Set the grid lines if necessary
+        # если нужно, сетки на графике
         self.axes.grid(self.options_menu.grid_cb.isChecked())
 
-        # Draw the graph
+        # рисуем график
         self.canvas.draw()
 
     def show_about(self):

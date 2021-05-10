@@ -37,7 +37,7 @@ class GrowthCalculator(object):
         """
 
         # Рассчитать скорость изменения численности травоядных
-        dx_dt = x * (self.b1 - self.a12*y - self.a13*z)
+        dx_dt = x * (self.b1 - x/34 - self.a12*y - self.a13*z)
         return dx_dt
 
     def dy(self, x, y, z):
@@ -47,7 +47,7 @@ class GrowthCalculator(object):
         """
 
         # Calculate the rate of population change
-        dy_dt = y * (-self.b2 + self.a21*x - self.a23*z)
+        dy_dt = y * (-self.b2 + self.a21*x)
 
         # Calculate the predator population change
         return dy_dt
@@ -59,7 +59,7 @@ class GrowthCalculator(object):
         """
 
         # Calculate the rate of population change
-        dz_dt = z * (-self.b3 + self.a31*x + self.a32*y)
+        dz_dt = z * (-self.b3 + self.a31*x)
 
         # Calculate the predator population change
         return dz_dt

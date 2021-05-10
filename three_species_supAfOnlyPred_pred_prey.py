@@ -6,19 +6,15 @@ class GrowthCalculator(object):
         # Lotka-Volterra equation coefficients
         #для травоядных
         self.b1 = 1.0 #рождаемость
-     #   self.a11 = 0.1 #смерть от старости
         self.a12 = 0.1 #смерть от хищников
-        self.a13 = 0.1 #смерть от суперхищников
 
         #для хищников
         self.b2 = 1.0 #смерть хищников без травоядных
         self.a21 = 0.075 #репродукция хищников за каждого съеденного
-     #   self.a22 = 0.5 #смертность от старости
         self.a23 = 0.3 #смертность от суперхищников
 
         #для суперхищников
         self.b3 = 1.0  #смерть суперхищников без травоядных и хищников
-        self.a31 = 0.075  # репродукция суперхищников за каждого съеденного травоядного
         self.a32 = 0.5  # репродукция суперхищников за каждого съеденного хищника
     #    self.a33 = 0.3 #смерть от старости
 
@@ -30,14 +26,14 @@ class GrowthCalculator(object):
         self.superpredators = 4
         self.prey = 10
 
-    def dx(self, x, y, z):
+    def dx(self, x, y):
         """
         Рассчитывает изменение размера популяции жертвы с помощью уравнения Лотки-Вольтерры
         для добычи
         """
 
         # Рассчитать скорость изменения численности травоядных
-        dx_dt = x * (self.b1 - self.a12*y - self.a13*z)
+        dx_dt = x * (self.b1 - self.a12*y)
         return dx_dt
 
     def dy(self, x, y, z):
@@ -52,14 +48,14 @@ class GrowthCalculator(object):
         # Calculate the predator population change
         return dy_dt
 
-    def dz(self, x, y, z):
+    def dz(self, y, z):
         """
         Рассчитывает изменение размера популяции хищников с помощью
         Уравнения Лотки-Вольтерра для суперхищников
         """
 
         # Calculate the rate of population change
-        dz_dt = z * (-self.b3 + self.a31*x + self.a32*y)
+        dz_dt = z * (-self.b3 + self.a32*y)
 
         # Calculate the predator population change
         return dz_dt
@@ -106,9 +102,9 @@ class GrowthCalculator(object):
         y = rf[1]
         z = rf[2]
 
-        dxdt = self.dx(x, y, z)
+        dxdt = self.dx(x, y)
         dydt = self.dy(x, y, z)
-        dzdt = self.dz(x, y, z)
+        dzdt = self.dz(y, z)
 
         drfdt = np.array([dxdt, dydt, dzdt], dtype='double')
         return drfdt

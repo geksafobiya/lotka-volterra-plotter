@@ -9,18 +9,15 @@ class OptionsMenu(QtWidgets.QWidget):
         QtWidgets.QWidget.__init__(self, parent)
 
         # Create the "Lotka-Volterra Coefficients" options
-   #     self.a11_sb = QtWidgets.QDoubleSpinBox()
         self.b1_sb = QtWidgets.QDoubleSpinBox()
         self.a12_sb = QtWidgets.QDoubleSpinBox()
         self.a13_sb = QtWidgets.QDoubleSpinBox()
         self.b2_sb = QtWidgets.QDoubleSpinBox()
         self.a21_sb = QtWidgets.QDoubleSpinBox()
-      #  self.a22_sb = QtWidgets.QDoubleSpinBox()
         self.a23_sb = QtWidgets.QDoubleSpinBox()
         self.b3_sb = QtWidgets.QDoubleSpinBox()
         self.a31_sb = QtWidgets.QDoubleSpinBox()
         self.a32_sb = QtWidgets.QDoubleSpinBox()
-       # self.a33_sb = QtWidgets.QDoubleSpinBox()
 
 
         for widget in (self.b1_sb, self.a12_sb, self.a13_sb, self.b2_sb, self.a21_sb, self.a23_sb, self.b3_sb, self.a31_sb, self.a32_sb):
@@ -31,8 +28,6 @@ class OptionsMenu(QtWidgets.QWidget):
         coeff_grid.addWidget(QtWidgets.QLabel('Рождаемость жертв'), 0, 0)
         coeff_grid.addWidget(self.b1_sb, 0, 1)
 
-      #  coeff_grid.addWidget(QtWidgets.QLabel('Смертность жертв от старости'), 1, 0)
-      #  coeff_grid.addWidget(self.a11_sb, 1, 1)
         coeff_grid.addWidget(QtWidgets.QLabel('Убийства жертв хищниками'), 1, 0)
         coeff_grid.addWidget(self.a12_sb, 1, 1)
         coeff_grid.addWidget(QtWidgets.QLabel('Убийства жертв суперхищниками'), 2, 0)
@@ -40,8 +35,6 @@ class OptionsMenu(QtWidgets.QWidget):
 
         coeff_grid.addWidget(QtWidgets.QLabel('Смертность хищников от голода'), 3, 0)
         coeff_grid.addWidget(self.b2_sb, 3, 1)
-      #  coeff_grid.addWidget(QtWidgets.QLabel('Смертность хищников от старости'), 5, 0)
-      #  coeff_grid.addWidget(self.a22_sb, 5, 1)
         coeff_grid.addWidget(QtWidgets.QLabel('Прирост хищников за счёт убийства жертв'), 4, 0)
         coeff_grid.addWidget(self.a21_sb, 4, 1)
         coeff_grid.addWidget(QtWidgets.QLabel('Убийства хищников суперхищниками'), 5, 0)
@@ -49,8 +42,6 @@ class OptionsMenu(QtWidgets.QWidget):
 
         coeff_grid.addWidget(QtWidgets.QLabel('Смертность суперхищников от голода'), 6, 0)
         coeff_grid.addWidget(self.b3_sb, 6, 1)
-      #  coeff_grid.addWidget(QtWidgets.QLabel('Смертность суперхищников от старости'), 9, 0)
-      #  coeff_grid.addWidget(self.a33_sb, 7, 1)
         coeff_grid.addWidget(QtWidgets.QLabel('Прирост суперхищников за счёт убийства жертв'), 7, 0)
         coeff_grid.addWidget(self.a31_sb, 7, 1)
         coeff_grid.addWidget(QtWidgets.QLabel('Прирост суперхищников за счёт убийства хищников'), 8, 0)
@@ -142,13 +133,19 @@ class OptionsMenu(QtWidgets.QWidget):
             QtGui.QIcon(':/resources/calculator.png'),
             'Запуск итераций')
 
+        self.preySuperpredator_btn = QtWidgets.QPushButton('Суперхищники-жертвы')
+        self.preyPredator_btn = QtWidgets.QPushButton('Хищники-жертвы')
+
         self.reset_values_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/arrow_undo.png'),
             'Сброс значений')
         self.clear_graph_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/chart_line_delete.png'),
             'Очистить график')
+
         self.reset_values_btn.clicked.connect(self.reset_values)
+        self.preySuperpredator_btn.clicked.connect(self.preySuperpredator)
+        self.preyPredator_btn.clicked.connect(self.preyPredator)
 
         # Create the main layout
         container = QtWidgets.QVBoxLayout()
@@ -157,6 +154,9 @@ class OptionsMenu(QtWidgets.QWidget):
         container.addWidget(graph_gb)
         container.addWidget(self.update_btn)
         container.addStretch()
+        container.addWidget(self.preySuperpredator_btn)
+        container.addWidget(self.preyPredator_btn)
+        container.addStretch()
         container.addWidget(self.reset_values_btn)
         container.addWidget(self.clear_graph_btn)
         self.setLayout(container)
@@ -164,6 +164,49 @@ class OptionsMenu(QtWidgets.QWidget):
         # Populate the widgets with values
         self.reset_values()
 
+    def preySuperpredator(self):
+        """
+        значения чисто системы суперхищники-жертвы
+        """
+        self.b1_sb.setValue(0.1)
+        self.a12_sb.setValue(0.0)
+        self.a13_sb.setValue(0.1)
+
+        self.b2_sb.setValue(0.0)
+        self.a21_sb.setValue(0.0)
+        self.a23_sb.setValue(0.0)
+
+        self.b3_sb.setValue(0.4)
+        self.a31_sb.setValue(0.3)
+        self.a32_sb.setValue(0.0)
+
+        self.predator_sb.setValue(0)
+        self.prey_sb.setValue(20)
+        self.superpredators_sb.setValue(5)
+        self.iterations_sb.setValue(1000)
+        self.timedelta_sb.setValue(0.02)
+
+    def preyPredator(self):
+        """
+        значения чисто системы хищники-жертвы
+        """
+        self.b1_sb.setValue(0.1)
+        self.a12_sb.setValue(0.1)
+        self.a13_sb.setValue(0.0)
+
+        self.b2_sb.setValue(0.1)
+        self.a21_sb.setValue(0.2)
+        self.a23_sb.setValue(0.0)
+
+        self.b3_sb.setValue(0.0)
+        self.a31_sb.setValue(0.0)
+        self.a32_sb.setValue(0.0)
+
+        self.predator_sb.setValue(4)
+        self.prey_sb.setValue(20)
+        self.superpredators_sb.setValue(0)
+        self.iterations_sb.setValue(1000)
+        self.timedelta_sb.setValue(0.02)
     def reset_values(self):
         """
         Значения по умолчанию.
@@ -174,12 +217,12 @@ class OptionsMenu(QtWidgets.QWidget):
         self.a12_sb.setValue(0.1)
         self.a13_sb.setValue(0.1)
 
-        self.b2_sb.setValue(1.0)
+        self.b2_sb.setValue(0.2)
         self.a21_sb.setValue(0.2)
  #       self.a22_sb.setValue(0.2)
         self.a23_sb.setValue(0.3)
 
-        self.b3_sb.setValue(1.0)
+        self.b3_sb.setValue(0.4)
         self.a31_sb.setValue(0.3)
         self.a32_sb.setValue(0.2)
   #      self.a33_sb.setValue(0.98)
