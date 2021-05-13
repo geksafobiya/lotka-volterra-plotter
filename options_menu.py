@@ -4,7 +4,7 @@ import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets as QtWidgets
 
 
-class OptionsMenu(QtWidgets.QWidget):
+class OptionsMenu_3_species(QtWidgets.QWidget):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
 
