@@ -21,8 +21,8 @@ class OptionsMenu(QtWidgets.QWidget):
 
 
         for widget in (self.b1_sb, self.a12_sb, self.a13_sb, self.b2_sb, self.a21_sb, self.a23_sb, self.b3_sb, self.a31_sb, self.a32_sb):
-            widget.setRange(0, 10)
-            widget.setSingleStep(0.1)
+            widget.setRange(0, 1)
+            widget.setSingleStep(0.05)
 
         coeff_grid = QtWidgets.QGridLayout()
         coeff_grid.addWidget(QtWidgets.QLabel('Рождаемость жертв'), 0, 0)

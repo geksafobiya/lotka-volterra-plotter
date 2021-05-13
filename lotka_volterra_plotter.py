@@ -12,7 +12,7 @@ import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets as QtWidgets
 
 # Local application modules
-from two_pred_one_prey import GrowthCalculator
+from two_preys_predator import GrowthCalculator
 from options_menu import OptionsMenu
 import resources
 
@@ -142,17 +142,17 @@ class AppForm(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников вида 1, хищников вида 2 и травоядных')
+        self.axes.set_title('Цикл роста хищников и травоядных вида 1 и вида 2')
         self.axes.set_xlabel('Итерации')
         self.axes.set_ylabel('Размер популяции')
 
         # Plot the current population data
         if self.predator_history:
-            self.axes.plot(self.predator_history, 'r-', label='хищники вида 1')
+            self.axes.plot(self.predator_history, 'r-', label='травоядные вида 1')
         if self.prey_history:
-            self.axes.plot(self.prey_history, 'b-', label='травоядные')
+            self.axes.plot(self.prey_history, 'b-', label='травоядные типа 2')
         if self.superpredator_history:
-            self.axes.plot(self.superpredator_history, 'g-', label='хищники вида 2')
+            self.axes.plot(self.superpredator_history, 'g-', label='хищники')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():
