@@ -323,13 +323,13 @@ class AppForm_4_species(QtWidgets.QMainWindow):
 
         # Plot the current population data
         if self.predator1_history:
-            self.axes.plot(self.predator1_history, 'r-', label='хищники вида 1')
+            self.axes.plot(self.predator1_history, 'r-', color='#0d7b0c5a', linewidth=6, label='хищники вида 1')
         if self.prey1_history:
             self.axes.plot(self.prey1_history, 'b-', label='жертвы вида 1')
         if self.predator2_history:
-            self.axes.plot(self.predator2_history, 'y-', label='хищники вида 2')
+            self.axes.plot(self.predator2_history, 'r-',  label='хищники вида 2')
         if self.prey2_history:
-            self.axes.plot(self.prey2_history, 'g--', color='#0a0b0c3a', linewidth=4, label='жертвы вида 2')
+            self.axes.plot(self.prey2_history, 'g-', color='#0a0b0c3a', linewidth=6, label='жертвы вида 2')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():
