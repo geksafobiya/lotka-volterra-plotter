@@ -181,6 +181,7 @@ class AppForm_3_species(QtWidgets.QMainWindow):
 
         QtWidgets.QMessageBox.about(self, 'About' + APP_NAME, message)
 
+
 class AppForm_4_species(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
@@ -243,6 +244,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         help_menu.addAction(about_action)
 
     def calculate_data(self):
+        self.options_menu.update_btn.setEnabled(False)
         # объект GrowthCalculator
         growth = GrowthCalculator()
 
@@ -263,8 +265,12 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         growth.a32 = self.options_menu.a32_sb.value()
  #       growth.a33 = self.options_menu.a33_sb.value()
 
+        growth.b4 = self.options_menu.b4_sb.value()
+        growth.a41 = self.options_menu.a41_sb.value()
+        growth.a42 = self.options_menu.a42_sb.value()
+
         growth.predators1 = self.options_menu.predator1_sb.value()
-        growth.predators2 = self.options_menu.predator1_sb.value()
+        growth.predators2 = self.options_menu.predator2_sb.value()
         growth.prey1 = self.options_menu.prey1_sb.value()
         growth.prey2 = self.options_menu.prey2_sb.value()
      #   growth.superpredators = self.options_menu.superpredators_sb.value()
@@ -284,6 +290,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
                 len(self.prey2_history) == 0 and
                 len(self.predator2_history) == 0):
             QtWidgets.QMessageBox.information(self, 'Error', 'Ошибка')
+            self.options_menu.update_btn.setEnabled(True)
             return
 
         # последнее в векторе количество популяции на панель инструментов параметров
@@ -293,6 +300,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
       #  self.options_menu.superpredators_sb.setValue(self.superpredator_history[-1])
         # перерисовать граф
         self.redraw_graph()
+        self.options_menu.update_btn.setEnabled(True)
 
     def clear_graph(self):
         # очистить историю популяций
@@ -309,7 +317,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников и травоядных вида 1 и вида 2')
+        self.axes.set_title('Цикл роста хищников вида 1 и вида 2 и травоядных вида 1 и вида 2')
         self.axes.set_xlabel('Итерации')
         self.axes.set_ylabel('Размер популяции')
 
@@ -317,11 +325,11 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         if self.predator1_history:
             self.axes.plot(self.predator1_history, 'r-', label='хищники вида 1')
         if self.prey1_history:
-            self.axes.plot(self.prey1_history, 'b-', label='травоядные вида 1')
+            self.axes.plot(self.prey1_history, 'b-', label='жертвы вида 1')
         if self.predator2_history:
-            self.axes.plot(self.predator2_history, 'y-', label='хищники вида 1')
+            self.axes.plot(self.predator2_history, 'y-', label='хищники вида 2')
         if self.prey2_history:
-            self.axes.plot(self.prey2_history, 'g-', label='травоядные вида 2')
+            self.axes.plot(self.prey2_history, 'g--', color='#0a0b0c3a', linewidth=4, label='жертвы вида 2')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():

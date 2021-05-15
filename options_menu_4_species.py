@@ -59,7 +59,7 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         coeff_grid.addWidget(self.b4_sb, 9, 1)
         coeff_grid.addWidget(QtWidgets.QLabel('Прирост хищников вида 2 за счёт убийства жертв вида 1'), 10, 0)
         coeff_grid.addWidget(self.a41_sb, 10, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Прирост хищников вида 3 за счёт убийства жертв вида 2'), 11, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Прирост хищников вида 2 за счёт убийства жертв вида 2'), 11, 0)
         coeff_grid.addWidget(self.a42_sb, 11, 1)
 
         coeff_gb = QtWidgets.QGroupBox('Коэффициенты уравнения Лотки-Вольтерра:')
@@ -87,7 +87,7 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         #self.superpredators_sb.setSingleStep(1)
 
         self.iterations_sb = QtWidgets.QSpinBox()
-        self.iterations_sb.setRange(0, 100000)
+        self.iterations_sb.setRange(0, 1000000)
         self.iterations_sb.setSingleStep(100)
 
         self.timedelta_sb = QtWidgets.QDoubleSpinBox()
@@ -156,7 +156,7 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         # Create the update/reset buttons
         self.update_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/calculator.png'),
-            'Запуск итераций')
+            'Запустить')
 
         self.reset_values_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/arrow_undo.png'),
@@ -174,7 +174,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         container.addWidget(graph_gb)
         container.addWidget(self.update_btn)
         container.addStretch()
-        container.addStretch()
         container.addWidget(self.reset_values_btn)
         container.addWidget(self.clear_graph_btn)
         self.setLayout(container)
@@ -188,30 +187,31 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         """
 
 #        self.a11_sb.setValue(1.0)
-        self.b1_sb.setValue(0.1)
-        self.a11_sb.setValue(0.1)
-        self.a12_sb.setValue(0.1)
+        self.b1_sb.setValue(0.0)
+        self.a11_sb.setValue(0.0)
+        self.a12_sb.setValue(0.0)
     #    self.a13_sb.setValue(0.1)
 
-        self.b2_sb.setValue(0.1)
-        self.a21_sb.setValue(0.1)
-        self.a22_sb.setValue(0.1)
+        self.b2_sb.setValue(0.0)
+        self.a21_sb.setValue(0.0)
+        self.a22_sb.setValue(0.0)
       #  self.a23_sb.setValue(0.1)
 
-        self.b3_sb.setValue(0.1)
-        self.a31_sb.setValue(0.1)
-        self.a32_sb.setValue(0.1)
+        self.b3_sb.setValue(0.0)
+        self.a31_sb.setValue(0.0)
+        self.a32_sb.setValue(0.0)
       #  self.a33_sb.setValue(0.1)
 
-        self.b4_sb.setValue(0.1)
-        self.a41_sb.setValue(0.1)
-        self.a42_sb.setValue(0.1)
+        self.b4_sb.setValue(0.0)
+        self.a41_sb.setValue(0.0)
+        self.a42_sb.setValue(0.0)
      #   self.a43_sb.setValue(0.1)
 
-        self.predator1_sb.setValue(5)
-        self.prey1_sb.setValue(10)
-        self.predator2_sb.setValue(5)
+        self.predator1_sb.setValue(0)
+        self.prey1_sb.setValue(0)
+        self.predator2_sb.setValue(0)
         self.prey2_sb.setValue(10)
+
       #  self.superpredators_sb.setValue(5)
         self.iterations_sb.setValue(1000)
         self.timedelta_sb.setValue(0.02)
