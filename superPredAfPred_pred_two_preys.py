@@ -1,6 +1,7 @@
 import numpy as np
 np.seterr(all='raise')
 
+
 class GrowthCalculator(object):
     def __init__(self):
         # Lotka-Volterra equation coefficients
@@ -12,66 +13,63 @@ class GrowthCalculator(object):
         self.b2 = 1.0 #смерть хищников без травоядных
         self.a21 = 0.075 #репродукция хищников за каждого съеденного
         self.a22 = 0.5 #смертность от старости
+        self.a23 = 0.5  # смертность от старости
         #для суперхищников
         self.b3 = 1.0  #смерть суперхищников без травоядных и хищников
         self.a31 = 0.075  # репродукция суперхищников за каждого съеденного травоядного
-        self.a32 = 0.5  # репродукция суперхищников за каждого съеденного хищника
-
         self.b4 = 1.0  #смерть суперхищников без травоядных и хищников
-        self.a41 = 0.075  # репродукция суперхищников за каждого съеденного травоядного
-        self.a42 = 0.5  # репродукция суперхищников за каждого съеденного хищника
 
         # Other parameters
         self.dt = 0.02
         self.iterations = 1000
-        self.predators1 = 5
-        self.predators2 = 5
+        self.predator = 5
+        self.superpredator = 5
         self.prey1 = 10
         self.prey2 = 10
 
-    def dx1(self, x1, x2, y1, y2):
+    def dx1(self, x1, x2, y, z):
         """
         Рассчитывает изменение размера популяции жертвы 2 с помощью уравнения Лотки-Вольтерры
         для добычи
         """
 
         # Рассчитать скорость изменения численности травоядных
-        dx1_dt = x1 * (self.b1 - self.a11*y1 - self.a12*y2)
+        dx1_dt = x1 * (self.b1 - self.a11*y)
         return dx1_dt
 
-    def dx2(self, x1, x2, y1, y2):
+    def dx2(self, x1, x2, y, z):
         """
         Рассчитывает изменение размера популяции жертвы 1  с помощью уравнения Лотки-Вольтерры
         для добычи
         """
 
         # Рассчитать скорость изменения численности травоядных
-        dx2_dt = x2 * (self.b2 - self.a21*y1 - self.a22*y2)
+        dx2_dt = x2 * (self.b2 - self.a12*y)
         return dx2_dt
 
-    def dy1(self, x1, x2, y1, y2):
+    def dy(self, x1, x2, y, z):
         """
         Рассчитывает изменение размера популяции хищников 2 с помощью
         Уравнения Лотки-Вольтерра для хищников
         """
 
         # Calculate the rate of population change
-        dy1_dt = y1 * (-self.b3 + self.a31*x1 + self.a32*x2)
+        dy_dt = y * (-self.b3 + self.a21*x1 + self.a22*x2 - self.a23*z)
 
         # Calculate the predator population change
-        return dy1_dt
+        return dy_dt
 
-    def dy2(self, x1, x2, y1, y2):
+    def dz(self, x1, x2, y, z):
         """
         Рассчитывает изменение размера популяции хищников 1 с помощью
         Уравнения Лотки-Вольтерра для хищников
         """
 
         # Calculate the rate of population change
-        dy2_dt = y2 * (-self.b4 + self.a41*x1 + self.a42*x2)
+        dz_dt = z * (-self.b4 + self.a31*y)
 
         # Calculate the predator population change
-        return dy2_dt
+        return dz_dt
 
     def calculate(self):
         import json
@@ -84,19 +82,19 @@ class GrowthCalculator(object):
          'superpredator: [superpredator population history as a list]'}
         """
         prey1_history = []
-        predator1_history = []
         prey2_history = []
-        predator2_history = []
+        predator_history = []
+        superpredator_history = []
 
-        y0 = np.array([self.prey1, self.predators1, self.prey2, self.predators2], dtype='double')
+        y0 = np.array([self.prey1, self.prey2, self.predator, self.superpredator], dtype='double')
         tspan = np.array([0.0, self.dt * self.iterations], dtype='double')
 
         try:
             t, y = self.rk4(self.derivetives, tspan, y0, self.iterations)
             prey1_history = y[:, 0]
-            predator1_history = y[:, 1]
-            prey2_history = y[:, 2]
-            predator2_history = y[:, 3]
+            prey2_history = y[:, 1]
+            predator_history = y[:, 2]
+            superpredator_history = y[:, 3]
 
             # print('t = ', t)
             # print(predator_history)
@@ -108,22 +106,22 @@ class GrowthCalculator(object):
         return {
             'prey1': prey1_history,
             'prey2': prey2_history,
-            'predator1': predator1_history,
-            'predator2': predator2_history
+            'predator': predator_history,
+            'superpredator': superpredator_history
         }
 
     def derivetives(self, t, rf):
 
         x1 = rf[0]
-        y1 = rf[1]
-        x2 = rf[2]
-        y2 = rf[3]
+        x2 = rf[1]
+        y = rf[2]
+        z = rf[3]
 
-        dx1dt = self.dx1(x1, x2, y1, y2)
-        dy1dt = self.dy1(x1, x2, y1, y2)
-        dx2dt = self.dx2(x1, x2, y1, y2)
-        dy2dt = self.dy2(x1, x2, y1, y2)
-        drfdt = np.array([dx1dt, dy1dt, dx2dt, dy2dt], dtype='double')
+        dx1dt = self.dx1(x1, x2, y, z)
+        dx2dt = self.dx2(x1, x2, y, z)
+        dydt = self.dy(x1, x2, y, z)
+        dzdt = self.dz(x1, x2, y, z)
+        drfdt = np.array([dx1dt, dx2dt, dydt, dzdt], dtype='double')
         return drfdt
 
 
