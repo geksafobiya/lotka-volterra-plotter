@@ -12,7 +12,7 @@ import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets as QtWidgets
 
 # Local application modules
-from superPredAfPred_pred_two_preys import GrowthCalculator
+from three_preys_predator import GrowthCalculator
 from options_menu import OptionsMenu_3_species
 from options_menu_4_species import OptionsMenu_4_species
 import resources
@@ -252,7 +252,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         growth.b1 = self.options_menu.b1_sb.value()
         growth.a11 = self.options_menu.a11_sb.value()
         growth.a12 = self.options_menu.a12_sb.value()
- #       growth.a13 = self.options_menu.a13_sb.value()
+        growth.a13 = self.options_menu.a13_sb.value()
 
         growth.b2 = self.options_menu.b2_sb.value()
         growth.a21 = self.options_menu.a21_sb.value()
@@ -260,7 +260,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         growth.a23 = self.options_menu.a23_sb.value()
 
         growth.b3 = self.options_menu.b3_sb.value()
-        growth.a31 = self.options_menu.a31_sb.value()
+ #       growth.a31 = self.options_menu.a31_sb.value()
  #       growth.a32 = self.options_menu.a32_sb.value()
  #       growth.a33 = self.options_menu.a33_sb.value()
 
@@ -272,7 +272,8 @@ class AppForm_4_species(QtWidgets.QMainWindow):
    #     growth.predators2 = self.options_menu.predator2_sb.value()
         growth.prey1 = self.options_menu.prey1_sb.value()
         growth.prey2 = self.options_menu.prey2_sb.value()
-        growth.superpredator = self.options_menu.superpredator_sb.value()
+        growth.prey3 = self.options_menu.prey3_sb.value()
+  #      growth.superpredator = self.options_menu.superpredator_sb.value()
 
         growth.iterations = self.options_menu.iterations_sb.value()
         growth.dt = self.options_menu.timedelta_sb.value()
@@ -281,13 +282,13 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         results = growth.calculate()
         self.predator_history.extend(results['predator'])
         self.prey1_history.extend(results['prey1'])
-        self.superpredator_history.extend(results['superpredator'])
+    #    self.superpredator_history.extend(results['superpredator'])
         self.prey2_history.extend(results['prey2'])
-
+        self.prey3_history.extend(results['prey3'])
         if (len(self.predator_history) == 0 and
                 len(self.prey1_history) == 0 and
                 len(self.prey2_history) == 0 and
-                len(self.superpredator_history) == 0):
+                len(self.prey3_history) == 0):
             QtWidgets.QMessageBox.information(self, 'Error', 'Ошибка')
             self.options_menu.update_btn.setEnabled(True)
             return
@@ -306,7 +307,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         self.predator_history = []
         self.prey2_history = []
         self.prey1_history = []
-        self.superpredator_history = []
+        self.prey3_history = []
         #self.prey2_history = []
 
         # перерисовать граф
@@ -317,7 +318,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников, суперхищников и жертв вида 1 и вида 2')
+        self.axes.set_title('Цикл роста хищников и трех видов жертв')
         self.axes.set_xlabel('Итерации')
         self.axes.set_ylabel('Размер популяции')
 
@@ -328,12 +329,12 @@ class AppForm_4_species(QtWidgets.QMainWindow):
             self.axes.plot(self.predator_history, 'r-', color='#0d7b0c5a', linewidth=6, label='хищники')
         if self.prey1_history:
             self.axes.plot(self.prey1_history, 'b-', label='жертвы вида 1')
-        if self.superpredator_history:
-            self.axes.plot(self.superpredator_history, 'r-',  label='суперхищники')
+        if self.prey3_history:
+            self.axes.plot(self.prey3_history, 'r-',  label='жертвы вида 3')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():
-            if self.predator_history or self.prey1_history or self.superpredator_history or self.prey2_history:
+            if self.predator_history or self.prey1_history or self.prey3_history or self.prey2_history:
                 legend_loc = str(
                     self.options_menu.legend_loc_cb.currentText()
                 ).lower()
