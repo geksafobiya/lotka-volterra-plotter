@@ -12,7 +12,7 @@ import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets as QtWidgets
 
 # Local application modules
-from Classic import GrowthCalculator
+from growth_calculator import GrowthCalculator
 from options_menu import OptionsMenu_3_species
 from options_menu_4_species import OptionsMenu_4_species
 from options_menu_2 import OptionsMenu_2_species
@@ -250,7 +250,7 @@ class AppForm_3_species(QtWidgets.QMainWindow):
 
         growth.predators = self.options_menu.predator_sb.value()
         growth.prey = self.options_menu.prey_sb.value()
-        growth.superpredators = self.options_menu.superpredators_sb.value()
+        growth.superpredator = self.options_menu.superpredator_sb.value()
 
         growth.iterations = self.options_menu.iterations_sb.value()
         growth.dt = self.options_menu.timedelta_sb.value()
@@ -289,17 +289,17 @@ class AppForm_3_species(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников и травоядных вида 1 и вида 2')
+        self.axes.set_title('Цикл роста хищников, жертв и суперхищников')
         self.axes.set_xlabel('Итерации')
         self.axes.set_ylabel('Размер популяции')
 
         # Plot the current population data
         if self.predator_history:
-            self.axes.plot(self.predator_history, 'r-', label='травоядные вида 1')
+            self.axes.plot(self.predator_history, 'r-', label='хищники')
         if self.prey_history:
-            self.axes.plot(self.prey_history, 'b-', label='травоядные типа 2')
+            self.axes.plot(self.prey_history, 'b-', label='жертвы')
         if self.superpredator_history:
-            self.axes.plot(self.superpredator_history, 'g-', label='хищники')
+            self.axes.plot(self.superpredator_history, 'g-', label='суперхищники')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():
@@ -508,6 +508,6 @@ class AppForm_4_species(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QtGui.QIcon(':/resources/icon.svg'))
-    form = AppForm_2_species()
+    form = OptionsMenu_4_species()
     form.show()
     app.exec_()
