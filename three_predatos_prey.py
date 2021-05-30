@@ -56,7 +56,7 @@ class GrowthCalculator(object):
         """
 
         # Calculate the rate of population change
-        dy2_dt = y2 * (-self.b3 + + self.a22*x)
+        dy2_dt = y2 * (-self.b3 + self.a22*x)
 
         # Calculate the predator population change
         return dy2_dt
@@ -88,7 +88,7 @@ class GrowthCalculator(object):
         predator2_history = []
         predator3_history = []
 
-        y0 = np.array([self.prey, self.predator1, self.predator2, self.predator3], dtype='double')
+        y0 = np.array([self.prey, self.predators1, self.predators2, self.predators3], dtype='double')
         tspan = np.array([0.0, self.dt * self.iterations], dtype='double')
 
         try:

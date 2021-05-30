@@ -19,8 +19,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         self.a12_sb.setObjectName("a12_sb")
         self.a13_sb = QtWidgets.QDoubleSpinBox()
         self.a13_sb.setObjectName("a13_sb")
-        self.a14_sb = QtWidgets.QDoubleSpinBox()
-        self.a14_sb.setObjectName("a14_sb")
 
         self.b2_sb = QtWidgets.QDoubleSpinBox()
         self.b2_sb.setObjectName("b2_sb")
@@ -33,21 +31,16 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
 
         self.b3_sb = QtWidgets.QDoubleSpinBox()
         self.b3_sb.setObjectName("b3_sb")
-        self.a31_sb = QtWidgets.QDoubleSpinBox()
-        self.a31_sb.setObjectName("a31_sb")
-        self.a32_sb = QtWidgets.QDoubleSpinBox()
-        self.a32_sb.setObjectName("a32_sb")
-        self.a33_sb = QtWidgets.QDoubleSpinBox()
-        self.a33_sb.setObjectName("a33_sb")
+
         self.b4_sb = QtWidgets.QDoubleSpinBox()
         self.b4_sb.setObjectName("b4_sb")
         #self.a41_sb = QtWidgets.QDoubleSpinBox()
         #self.a42_sb = QtWidgets.QDoubleSpinBox()
    # = QtWidgets.QDoubleSpinBox()
 
-        for widget in (self.b1_sb, self.a11_sb, self.a12_sb, self.a13_sb, self.a14_sb,
+        for widget in (self.b1_sb, self.a11_sb, self.a12_sb, self.a13_sb,
                        self.b2_sb, self.a21_sb, self.a22_sb, self.a23_sb,
-                       self.b3_sb, self.a31_sb, self.a32_sb, self.a33_sb,
+                       self.b3_sb,
                        self.b4_sb):
             widget.setRange(0, 1)
             widget.setSingleStep(0.05)
@@ -69,8 +62,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         coeff_grid.addWidget(self.a12_sb, 5, 1)
         coeff_grid.addWidget(QtWidgets.QLabel('Убийства жертв вида 2 хищниками'), 6, 0)
         coeff_grid.addWidget(self.a13_sb, 6, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Убийства жертв вида 2 суперхищниками'), 7, 0)
-        coeff_grid.addWidget(self.a14_sb, 7, 1)
 
         coeff_grid.addWidget(QtWidgets.QLabel('Прирост хищников за счёт убийства жертв вида 1'), 8, 0)
         coeff_grid.addWidget(self.a21_sb, 8, 1)
@@ -79,42 +70,29 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         coeff_grid.addWidget(QtWidgets.QLabel('Смертность хищников из-за суперхищников'), 10, 0)
         coeff_grid.addWidget(self.a23_sb, 10, 1)
 
-        coeff_grid.addWidget(QtWidgets.QLabel('Прирост суперхищников за счёт убийства жертв вида 1'), 11, 0)
-        coeff_grid.addWidget(self.a31_sb, 11, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Прирост суперхищников за счёт убийства жертв вида 2'), 12, 0)
-        coeff_grid.addWidget(self.a32_sb, 12, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Прирост суперхищников за счёт убийства хищников'), 13, 0)
-        coeff_grid.addWidget(self.a33_sb, 13, 1)
-
         coeff_gb = QtWidgets.QGroupBox('Коэффициенты уравнения Лотки-Вольтерра:')
         coeff_gb.setLayout(coeff_grid)
 
         # Create the "Other Parameters" options
-        self.predator_sb = QtWidgets.QDoubleSpinBox()
-        self.predator_sb.setRange(0, 100000)
-        self.predator_sb.setSingleStep(1)
-        self.predator_sb.setObjectName("predator_sb")
+        self.predator2_sb = QtWidgets.QDoubleSpinBox()
+        self.predator2_sb.setRange(0, 100000)
+        self.predator2_sb.setSingleStep(1)
+        self.predator2_sb.setObjectName("predator2_sb")
 
-        self.superpredator_sb = QtWidgets.QDoubleSpinBox()
-        self.superpredator_sb.setRange(0, 100000)
-        self.superpredator_sb.setSingleStep(1)
-        self.superpredator_sb.setObjectName("superpredator_sb")
-  #      self.predator3_sb = QtWidgets.QDoubleSpinBox()
-   #     self.predator3_sb.setRange(0, 100000)
-   #     self.predator3_sb.setSingleStep(1)
-  #      self.superpredator_sb = QtWidgets.QDoubleSpinBox()
-  #      self.superpredator_sb.setRange(0, 100000)
-  #      self.superpredator_sb.setSingleStep(1)
+        self.predator3_sb = QtWidgets.QDoubleSpinBox()
+        self.predator3_sb.setRange(0, 100000)
+        self.predator3_sb.setSingleStep(1)
+        self.predator3_sb.setObjectName("predator3_sb")
 
-        self.prey1_sb = QtWidgets.QDoubleSpinBox()
-        self.prey1_sb.setRange(0, 100000)
-        self.prey1_sb.setSingleStep(1)
-        self.prey1_sb.setObjectName("prey1_sb")
+        self.prey_sb = QtWidgets.QDoubleSpinBox()
+        self.prey_sb.setRange(0, 100000)
+        self.prey_sb.setSingleStep(1)
+        self.prey_sb.setObjectName("prey_sb")
 
-        self.prey2_sb = QtWidgets.QDoubleSpinBox()
-        self.prey2_sb.setRange(0, 100000)
-        self.prey2_sb.setSingleStep(1)
-        self.prey2_sb.setObjectName("prey2_sb")
+        self.predator1_sb = QtWidgets.QDoubleSpinBox()
+        self.predator1_sb.setRange(0, 100000)
+        self.predator1_sb.setSingleStep(1)
+        self.predator1_sb.setObjectName("predator1_sb")
 
         self.iterations_sb = QtWidgets.QSpinBox()
         self.iterations_sb.setRange(0, 1000000)
@@ -125,14 +103,14 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         self.timedelta_sb.setSingleStep(0.05)
 
         other_grid = QtWidgets.QGridLayout()
-        other_grid.addWidget(QtWidgets.QLabel('Популяция хищников'), 0, 0)
-        other_grid.addWidget(self.predator_sb, 0, 1)
-        other_grid.addWidget(QtWidgets.QLabel('Популяция жертв вида 1'), 1, 0)
-        other_grid.addWidget(self.prey1_sb, 1, 1)
-        other_grid.addWidget(QtWidgets.QLabel('Популяция жертв вида 2'), 2, 0)
-        other_grid.addWidget(self.prey2_sb, 2, 1)
-        other_grid.addWidget(QtWidgets.QLabel('Популяция суперхищников'), 3, 0)
-        other_grid.addWidget(self.superpredator_sb, 3, 1)
+        other_grid.addWidget(QtWidgets.QLabel('Популяція хижаків виду 1'), 0, 0)
+        other_grid.addWidget(self.predator1_sb, 0, 1)
+        other_grid.addWidget(QtWidgets.QLabel('Популяція хижаків виду 2'), 1, 0)
+        other_grid.addWidget(self.predator2_sb, 1, 1)
+        other_grid.addWidget(QtWidgets.QLabel('Популяція хижаків виду 3'), 2, 0)
+        other_grid.addWidget(self.predator3_sb, 2, 1)
+        other_grid.addWidget(QtWidgets.QLabel('Популяция жертв'), 3, 0)
+        other_grid.addWidget(self.prey_sb, 3, 1)
  #       other_grid.addWidget(QtWidgets.QLabel('Популяция суперхищников'), 1, 0)
   #      other_grid.addWidget(self.superpredator_sb, 1, 1)
 
@@ -246,19 +224,16 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         self.a23_sb.setValue(0.1)
 
         self.b3_sb.setValue(0.1)
-        self.a31_sb.setValue(0.1)
-        self.a32_sb.setValue(0.1)
-        self.a33_sb.setValue(0.1)
 
         self.b4_sb.setValue(0.1)
      #   self.a41_sb.setValue(0.0)
      #   self.a42_sb.setValue(0.0)
      #   self.a43_sb.setValue(0.1)
 
-        self.predator_sb.setValue(5)
-        self.superpredator_sb.setValue(5)
-        self.prey1_sb.setValue(5)
-        self.prey2_sb.setValue(5)
+        self.predator1_sb.setValue(5)
+        self.predator2_sb.setValue(5)
+        self.prey_sb.setValue(5)
+        self.predator3_sb.setValue(5)
 
 
       #  self.superpredators_sb.setValue(5)
@@ -285,7 +260,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
                 self.a11_sb.setValue(coeff_dict['a11_sb'])
                 self.a12_sb.setValue(coeff_dict['a12_sb'])
                 self.a13_sb.setValue(coeff_dict['a13_sb'])
-                self.a14_sb.setValue(coeff_dict['a14_sb'])
 
                 self.b2_sb.setValue(coeff_dict['b2_sb'])
                 self.a21_sb.setValue(coeff_dict['a21_sb'])
@@ -293,9 +267,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
                 self.a23_sb.setValue(coeff_dict['a23_sb'])
 
                 self.b3_sb.setValue(coeff_dict['b3_sb'])
-                self.a31_sb.setValue(coeff_dict['a31_sb'])
-                self.a32_sb.setValue(coeff_dict['a32_sb'])
-                self.a33_sb.setValue(coeff_dict['a33_sb'])
 
                 self.b4_sb.setValue(coeff_dict['b4_sb'])
 
@@ -322,9 +293,9 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         coeff_preset_list = self.readSettings()
 
         coeff_dict = dict()
-        for widget in (self.b1_sb, self.a11_sb, self.a12_sb, self.a13_sb, self.a14_sb,
+        for widget in (self.b1_sb, self.a11_sb, self.a12_sb, self.a13_sb,
                        self.b2_sb, self.a21_sb, self.a22_sb, self.a23_sb,
-                       self.b3_sb, self.a31_sb, self.a32_sb, self.a33_sb,
+                       self.b3_sb,
                        self.b4_sb):
             if len(widget.objectName()) == 0:
                 print('нет имя для переменной со значением: ', widget.value())
