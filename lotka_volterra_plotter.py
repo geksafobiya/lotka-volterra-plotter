@@ -12,7 +12,7 @@ import PyQt5.QtGui as QtGui
 import PyQt5.QtWidgets as QtWidgets
 
 # Local application modules
-from growth_calculator import GrowthCalculator
+from three_species_supAfOnlyPred_pred_prey import GrowthCalculator
 from options_menu import OptionsMenu_3_species
 from options_menu_4_species import OptionsMenu_4_species
 from options_menu_2 import OptionsMenu_2_species
@@ -31,7 +31,7 @@ class AppForm_2_species(QtWidgets.QMainWindow):
 
         # Создание в меню параметров в виджете док-станции
         self.options_menu = OptionsMenu_2_species()
-        dock = QtWidgets.QDockWidget('Настройки коэффициентов', self)
+        dock = QtWidgets.QDockWidget('Налаштування коефіцієнтів', self)
         dock.setFeatures(
             QtWidgets.QDockWidget.NoDockWidgetFeatures |
             QtWidgets.QDockWidget.DockWidgetMovable |
@@ -131,15 +131,15 @@ class AppForm_2_species(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников и жертв')
-        self.axes.set_xlabel('Итерации')
-        self.axes.set_ylabel('Размер популяции')
+        self.axes.set_title('Цикл зміни популяцій хижаків та жертв')
+        self.axes.set_xlabel('Ітерації')
+        self.axes.set_ylabel('Розмір популяції')
 
         # Plot the current population data
         if self.predator_history:
-            self.axes.plot(self.predator_history, 'r-', label='хищники')
+            self.axes.plot(self.predator_history, 'r-', label='хижаки')
         if self.prey_history:
-            self.axes.plot(self.prey_history, 'b-', label='жертвы')
+            self.axes.plot(self.prey_history, 'b-', label='жертви')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():
@@ -176,7 +176,7 @@ class AppForm_3_species(QtWidgets.QMainWindow):
 
         # Создание в меню параметров в виджете док-станции
         self.options_menu = OptionsMenu_3_species()
-        dock = QtWidgets.QDockWidget('Настройки коэффициентов', self)
+        dock = QtWidgets.QDockWidget('Налаштування коефіцієнтів', self)
         dock.setFeatures(
             QtWidgets.QDockWidget.NoDockWidgetFeatures |
             QtWidgets.QDockWidget.DockWidgetMovable |
@@ -289,17 +289,17 @@ class AppForm_3_species(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников, жертв и суперхищников')
-        self.axes.set_xlabel('Итерации')
-        self.axes.set_ylabel('Размер популяции')
+        self.axes.set_title('Цикл росту популяцій суперхижаків, хижаків та жертв')
+        self.axes.set_xlabel('Ітерації')
+        self.axes.set_ylabel('Розмір популяції')
 
         # Plot the current population data
         if self.predator_history:
-            self.axes.plot(self.predator_history, 'r-', label='хищники')
+            self.axes.plot(self.predator_history, 'r-', label='хижаки')
         if self.prey_history:
-            self.axes.plot(self.prey_history, 'b-', label='жертвы')
+            self.axes.plot(self.prey_history, 'b-', label='жертви')
         if self.superpredator_history:
-            self.axes.plot(self.superpredator_history, 'g-', label='суперхищники')
+            self.axes.plot(self.superpredator_history, 'g-', label='суперхижаки')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():
@@ -336,7 +336,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
 
         # Создание в меню параметров в виджете док-станции
         self.options_menu = OptionsMenu_4_species()
-        dock = QtWidgets.QDockWidget('Настройки коэффициентов', self)
+        dock = QtWidgets.QDockWidget('Налаштування коефіцієнтів', self)
         dock.setFeatures(
             QtWidgets.QDockWidget.NoDockWidgetFeatures |
             QtWidgets.QDockWidget.DockWidgetMovable |
@@ -436,7 +436,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
                 len(self.prey1_history) == 0 and
                 len(self.prey2_history) == 0 and
                 len(self.superpredator_history) == 0):
-            QtWidgets.QMessageBox.information(self, 'Error', 'Ошибка')
+            QtWidgets.QMessageBox.information(self, 'Error', 'Помилка')
             self.options_menu.update_btn.setEnabled(True)
             return
 
@@ -464,19 +464,19 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников, суперхищников и двух видов жертв')
-        self.axes.set_xlabel('Итерации')
-        self.axes.set_ylabel('Размер популяции')
+        self.axes.set_title('Цикл зміни популяцій хижаків, суперхижаків та двох видів жертв')
+        self.axes.set_xlabel('Ітерації')
+        self.axes.set_ylabel('Розмір популяції')
 
         # Plot the current population data
         if self.prey1_history:
-            self.axes.plot(self.prey1_history, 'g-', color='#0a0b0c3a', linewidth=6, label='жертвы вида 1')
+            self.axes.plot(self.prey1_history, 'g-', color='#0a0b0c3a', linewidth=6, label='хижаки виду 1')
         if self.predator_history:
-            self.axes.plot(self.predator_history, 'r-', color='#0d7b0c5a', linewidth=6, label='хищники')
+            self.axes.plot(self.predator_history, 'r-', color='#0d7b0c5a', linewidth=6, label='жертви виду 1 ')
         if self.superpredator_history:
-            self.axes.plot(self.superpredator_history, 'b-', label='суперхищники')
+            self.axes.plot(self.superpredator_history, 'b-', label='хижаки виду 2')
         if self.prey2_history:
-            self.axes.plot(self.prey2_history, 'r-',  label='жертвы вида 2')
+            self.axes.plot(self.prey2_history, 'r-',  label='жертви виду 2')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():
@@ -508,6 +508,6 @@ class AppForm_4_species(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QtGui.QIcon(':/resources/icon.svg'))
-    form = OptionsMenu_4_species()
+    form = AppForm_3_species()
     form.show()
     app.exec_()

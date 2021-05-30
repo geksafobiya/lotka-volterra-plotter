@@ -39,29 +39,29 @@ class OptionsMenu_3_species(QtWidgets.QWidget):
 
         coeff_grid = QtWidgets.QGridLayout()
         self.coeff_grid = coeff_grid
-        coeff_grid.addWidget(QtWidgets.QLabel('Рождаемость жертв'), 0, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Народжуваність жертв'), 0, 0)
         coeff_grid.addWidget(self.b1_sb, 0, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Смертность хищников'), 1, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Смертність хижаків'), 1, 0)
         coeff_grid.addWidget(self.b2_sb, 1, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Смертность суперхищников'), 2, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Смертність суперхижаків'), 2, 0)
         coeff_grid.addWidget(self.b3_sb, 2, 1)
 
-        coeff_grid.addWidget(QtWidgets.QLabel('Убийства жертв хищниками'), 3, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Вбивства жертв хижаками'), 3, 0)
         coeff_grid.addWidget(self.a12_sb, 3, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Убийства жертв суперхищниками'), 4, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Вбивства жертв суперхижаками'), 4, 0)
         coeff_grid.addWidget(self.a13_sb, 4, 1)
 
-        coeff_grid.addWidget(QtWidgets.QLabel('Прирост хищников за счёт убийства жертв'), 6, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Приріст хижаків за рахунок вбивства жертв'), 6, 0)
         coeff_grid.addWidget(self.a21_sb, 6, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Смертность хищников из-за суперхищников'), 7, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Смертність хижаків через суперхижаків'), 7, 0)
         coeff_grid.addWidget(self.a23_sb, 7, 1)
 
-        coeff_grid.addWidget(QtWidgets.QLabel('Прирост суперхищников за счёт убийства жертв'), 8, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Приріст суперхижаків за рахунок вбивства жертв'), 8, 0)
         coeff_grid.addWidget(self.a31_sb, 8, 1)
-        coeff_grid.addWidget(QtWidgets.QLabel('Прирост суперхищников за счёт убийства хищников'), 9, 0)
+        coeff_grid.addWidget(QtWidgets.QLabel('Приріст хижаків за рахунок вбивства хижаків'), 9, 0)
         coeff_grid.addWidget(self.a32_sb, 9, 1)
 
-        coeff_gb = QtWidgets.QGroupBox('Коэффициенты уравнения Лотки-Вольтерра:')
+        coeff_gb = QtWidgets.QGroupBox('Коефіцієнти рівняння Лотки-Вольтерра:')
         coeff_gb.setLayout(coeff_grid)
 
         # Create the "Other Parameters" options
@@ -95,31 +95,31 @@ class OptionsMenu_3_species(QtWidgets.QWidget):
         self.timedelta_sb.setSingleStep(0.05)
 
         other_grid = QtWidgets.QGridLayout()
-        other_grid.addWidget(QtWidgets.QLabel('Популяция хищников'), 0, 0)
+        other_grid.addWidget(QtWidgets.QLabel('Популяція хижаків'), 0, 0)
         other_grid.addWidget(self.predator_sb, 0, 1)
-        other_grid.addWidget(QtWidgets.QLabel('Популяция жертв'), 1, 0)
+        other_grid.addWidget(QtWidgets.QLabel('Популяція жертв'), 1, 0)
         other_grid.addWidget(self.prey_sb, 1, 1)
-        other_grid.addWidget(QtWidgets.QLabel('Популяция суперхищников'), 3, 0)
+        other_grid.addWidget(QtWidgets.QLabel('Популяція суперхижаків'), 3, 0)
         other_grid.addWidget(self.superpredator_sb, 3, 1)
         #       other_grid.addWidget(QtWidgets.QLabel('Популяция суперхищников'), 1, 0)
         #      other_grid.addWidget(self.superpredator_sb, 1, 1)
 
-        other_grid.addWidget(QtWidgets.QLabel('Итерации'), 5, 0)
+        other_grid.addWidget(QtWidgets.QLabel('Ітерації'), 5, 0)
         other_grid.addWidget(self.iterations_sb, 5, 1)
-        other_grid.addWidget(QtWidgets.QLabel('Время дельта'), 6, 0)
+        other_grid.addWidget(QtWidgets.QLabel('Час дельта'), 6, 0)
         other_grid.addWidget(self.timedelta_sb, 6, 1)
 
-        other_gb = QtWidgets.QGroupBox('Другие параметры:')
+        other_gb = QtWidgets.QGroupBox('Інші параметри:')
         other_gb.setLayout(other_grid)
 
         # Create the "Graph Options" options
-        self.legend_cb = QtWidgets.QCheckBox('Показать легенду')
+        self.legend_cb = QtWidgets.QCheckBox('Показати легенду')
         self.legend_cb.setChecked(True)
         self.legend_cb.stateChanged.connect(self.legend_change)
 
-        self.grid_cb = QtWidgets.QCheckBox('Показать сетку')
+        self.grid_cb = QtWidgets.QCheckBox('Показати сітку')
         self.grid_cb.setChecked(True)
-        self.legend_loc_lbl = QtWidgets.QLabel('Местоположение легенды')
+        self.legend_loc_lbl = QtWidgets.QLabel('Місцезнаходження легенди')
         self.legend_loc_cb = QtWidgets.QComboBox()
         self.legend_loc_cb.addItems([x.title() for x in [
             'right',
@@ -149,20 +149,20 @@ class OptionsMenu_3_species(QtWidgets.QWidget):
         graph_box.addWidget(self.legend_loc_lbl)
         graph_box.addLayout(legend_box)
 
-        graph_gb = QtWidgets.QGroupBox('Настройки графика:')
+        graph_gb = QtWidgets.QGroupBox('Налаштування графіка:')
         graph_gb.setLayout(graph_box)
 
         # Create the update/reset buttons
         self.update_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/calculator.png'),
-            'Запустить')
+            'Запустити')
 
         self.reset_values_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/arrow_undo.png'),
-            'Сброс значений')
+            'Значення за замовченням')
         self.clear_graph_btn = QtWidgets.QPushButton(
             QtGui.QIcon(':/resources/chart_line_delete.png'),
-            'Очистить график')
+            'Очистити графік')
 
         self.reset_values_btn.clicked.connect(self.reset_values)
 
@@ -171,7 +171,7 @@ class OptionsMenu_3_species(QtWidgets.QWidget):
         main_actions_vbox.addWidget(self.reset_values_btn)
         main_actions_vbox.addWidget(self.clear_graph_btn)
 
-        self.save_btn = QtWidgets.QPushButton('save')
+        self.save_btn = QtWidgets.QPushButton('зберігти')
         self.save_btn.clicked.connect(self.save_coeff)
         self.load_drop_box = QtWidgets.QComboBox()
         self.load_drop_box.setEditable(True)

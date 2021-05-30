@@ -37,7 +37,7 @@ class GrowthCalculator(object):
         """
 
         # Рассчитать скорость изменения численности травоядных
-        dx_dt = x * (self.b1 - x/34 - self.a12*y - self.a13*z)
+        dx_dt = x * (self.b1 - x/3 - self.a12*y - self.a13*z)
         return dx_dt
 
     def dy(self, x, y, z):
