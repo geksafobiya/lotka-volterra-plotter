@@ -260,7 +260,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         growth.a23 = self.options_menu.a23_sb.value()
 
         growth.b3 = self.options_menu.b3_sb.value()
- #       growth.a31 = self.options_menu.a31_sb.value()
+    #    growth.a31 = self.options_menu.a31_sb.value()
  #       growth.a32 = self.options_menu.a32_sb.value()
  #       growth.a33 = self.options_menu.a33_sb.value()
 
@@ -282,9 +282,9 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         results = growth.calculate()
         self.predator_history.extend(results['predator'])
         self.prey1_history.extend(results['prey1'])
-    #    self.superpredator_history.extend(results['superpredator'])
         self.prey2_history.extend(results['prey2'])
         self.prey3_history.extend(results['prey3'])
+
         if (len(self.predator_history) == 0 and
                 len(self.prey1_history) == 0 and
                 len(self.prey2_history) == 0 and
@@ -318,7 +318,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         self.axes.clear()
 
         # Create the graph labels
-        self.axes.set_title('Цикл роста хищников и трех видов жертв')
+        self.axes.set_title('Цикл роста хищников, суперхищников и жертв вида 1 и вида 2')
         self.axes.set_xlabel('Итерации')
         self.axes.set_ylabel('Размер популяции')
 
@@ -330,7 +330,7 @@ class AppForm_4_species(QtWidgets.QMainWindow):
         if self.prey1_history:
             self.axes.plot(self.prey1_history, 'b-', label='жертвы вида 1')
         if self.prey3_history:
-            self.axes.plot(self.prey3_history, 'r-',  label='жертвы вида 3')
+            self.axes.plot(self.prey3_history, 'r-',  label='суперхищники')
 
         # если нужно, создаём легенду
         if self.options_menu.legend_cb.isChecked():

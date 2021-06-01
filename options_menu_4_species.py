@@ -18,13 +18,7 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         self.a22_sb = QtWidgets.QDoubleSpinBox()
         self.a23_sb = QtWidgets.QDoubleSpinBox()
         self.b3_sb = QtWidgets.QDoubleSpinBox()
-        #self.a31_sb = QtWidgets.QDoubleSpinBox()
-        #self.a32_sb = QtWidgets.QDoubleSpinBox()
-        #self.a33_sb = QtWidgets.QDoubleSpinBox()
         self.b4_sb = QtWidgets.QDoubleSpinBox()
-        #self.a41_sb = QtWidgets.QDoubleSpinBox()
-        #self.a42_sb = QtWidgets.QDoubleSpinBox()
-   # = QtWidgets.QDoubleSpinBox()
 
         for widget in (self.b1_sb, self.a11_sb, self.a12_sb, self.a13_sb,
                        self.b2_sb, self.a21_sb, self.a22_sb, self.a23_sb,
@@ -58,13 +52,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         coeff_grid.addWidget(QtWidgets.QLabel('Прирост хищников за счёт убийства жертв вида 3'), 9, 0)
         coeff_grid.addWidget(self.a23_sb, 9, 1)
 
-        #coeff_grid.addWidget(QtWidgets.QLabel('Смертность суперхищников от голода'), 8, 0)
-       # coeff_grid.addWidget(self.b4_sb, 8, 1)
-       # coeff_grid.addWidget(QtWidgets.QLabel('Прирост суперхищников за счёт убийства хищников'), 9, 0)
-       # coeff_grid.addWidget(self.a31_sb, 9, 1)
-  #      coeff_grid.addWidget(QtWidgets.QLabel('Прирост хищников вида 2 за счёт убийства жертв вида 2'), 11, 0)
-  #      coeff_grid.addWidget(self.a42_sb, 11, 1)
-
         coeff_gb = QtWidgets.QGroupBox('Коэффициенты уравнения Лотки-Вольтерра:')
         coeff_gb.setLayout(coeff_grid)
 
@@ -72,10 +59,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         self.predator_sb = QtWidgets.QDoubleSpinBox()
         self.predator_sb.setRange(0, 100000)
         self.predator_sb.setSingleStep(1)
-
-  #      self.superpredator_sb = QtWidgets.QDoubleSpinBox()
-  #      self.superpredator_sb.setRange(0, 100000)
-  #      self.superpredator_sb.setSingleStep(1)
 
         self.prey1_sb = QtWidgets.QDoubleSpinBox()
         self.prey1_sb.setRange(0, 100000)
@@ -88,10 +71,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         self.prey2_sb = QtWidgets.QDoubleSpinBox()
         self.prey2_sb.setRange(0, 100000)
         self.prey2_sb.setSingleStep(1)
-
-        #self.superpredators_sb = QtWidgets.QDoubleSpinBox()
-        #self.superpredators_sb.setRange(0, 100000)
-        #self.superpredators_sb.setSingleStep(1)
 
         self.iterations_sb = QtWidgets.QSpinBox()
         self.iterations_sb.setRange(0, 1000000)
@@ -195,7 +174,6 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         Значения по умолчанию.
         """
 
-#        self.a11_sb.setValue(1.0)
         self.b1_sb.setValue(0.1)
         self.a11_sb.setValue(0.1)
         self.a12_sb.setValue(0.1)
@@ -207,22 +185,14 @@ class OptionsMenu_4_species(QtWidgets.QWidget):
         self.a23_sb.setValue(0.1)
 
         self.b3_sb.setValue(0.0)
-     #   self.a31_sb.setValue(0.0)
-      #  self.a32_sb.setValue(0.0)
-      #  self.a33_sb.setValue(0.1)
 
         self.b4_sb.setValue(0.1)
-     #   self.a41_sb.setValue(0.0)
-     #   self.a42_sb.setValue(0.0)
-     #   self.a43_sb.setValue(0.1)
 
         self.predator_sb.setValue(5)
         self.prey1_sb.setValue(5)
-   #     self.superpredator_sb.setValue(10)
         self.prey2_sb.setValue(10)
         self.prey3_sb.setValue(10)
 
-      #  self.superpredators_sb.setValue(5)
         self.iterations_sb.setValue(1000)
         self.timedelta_sb.setValue(0.02)
 
